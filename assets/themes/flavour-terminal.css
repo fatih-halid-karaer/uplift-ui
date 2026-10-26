@@ -1,0 +1,65 @@
+:root[data-flavour='terminal'] {
+  --r-sm: 2px;
+  --r-md: 3px;
+  --r-lg: 4px;
+  --radius-md: 2px;
+  --radius-lg: 3px;
+  --radius-xl: 4px;
+  --radius-2xl: 6px;
+
+  --fs-sm: 0.8125rem;
+  --fs-13: 0.75rem;
+  --text-sm: 0.8125rem;
+
+  --control-h: 2rem;
+  --control-px: 0.625rem;
+  --control-fs: 0.8125rem;
+  --row-py: 0.375rem;
+  --row-px: 0.75rem;
+  --head-pt: 0.375rem;
+  --head-pb: 0.375rem;
+  --row-hover-r: 0;
+  --status-r: 2px;
+  --heading-tracking: -0.005em;
+  --label-case: uppercase;
+  --label-tracking: 0.04em;
+}
+
+:root[data-flavour='terminal']:not([data-theme='dark']) {
+  --shadow-card: none;
+  --shadow-float: 0 0 0 1px color-mix(in srgb, var(--n-950, var(--color-surface-950)) 16%, transparent);
+}
+
+:root[data-flavour='terminal'][data-theme='dark'] {
+  --shadow-card: none;
+  --shadow-float: 0 0 0 1px rgb(255 255 255 / 0.14);
+}
+
+:root[data-flavour='terminal'] .ui-table :where(thead th) {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+}
+
+:root[data-flavour='terminal'] .ui-table :where(tbody td) {
+  font-size: 0.8125rem;
+  line-height: 1.25rem;
+}
+
+:root[data-flavour='terminal'] .ui-table :where(tbody tr:nth-child(even) td) {
+  background: color-mix(in srgb, var(--ink-muted, var(--color-ink-muted)) 6%, transparent);
+}
+
+:root[data-flavour='terminal'] .ui-table :where(tbody tr:hover td) {
+  background: color-mix(in srgb, var(--p-400, var(--color-primary-400)) 12%, transparent);
+}
+
+:root[data-flavour='terminal'] .ui-table :where(tbody tr) {
+  animation: none;
+}
+
+:root[data-flavour='terminal'] .ui-status {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}

@@ -1,0 +1,49 @@
+:root[data-flavour='editorial'] {
+  --font-display: 'Fraunces Variable', 'Fraunces', 'Newsreader', 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --heading-weight: 600;
+  --heading-tracking: -0.02em;
+
+  --r-sm: 2px;
+  --r-md: 4px;
+  --r-lg: 6px;
+  --radius-md: 2px;
+  --radius-lg: 4px;
+  --radius-xl: 6px;
+  --radius-2xl: 8px;
+
+  --row-py: 0.875rem;
+  --row-px: 0.75rem;
+  --head-pt: 0.75rem;
+  --head-pb: 0.5rem;
+  --row-hover-r: 0;
+  --status-r: 0;
+  --label-case: uppercase;
+  --label-tracking: 0.08em;
+}
+
+:root[data-flavour='editorial']:not([data-theme='dark']) {
+  --shadow-card: none;
+  --shadow-float: 0 1px 0 color-mix(in srgb, var(--n-950, var(--color-surface-950)) 6%, transparent), 0 16px 40px -18px color-mix(in srgb, var(--n-950, var(--color-surface-950)) 28%, transparent);
+}
+
+:root[data-flavour='editorial'][data-theme='dark'] {
+  --shadow-card: none;
+  --shadow-float: 0 18px 44px -14px rgb(0 0 0 / 0.65), 0 0 0 1px rgb(255 255 255 / 0.06);
+}
+
+:root[data-flavour='editorial'] .ui-table :where(thead th) {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  border-bottom-color: var(--ink-emphasis, var(--color-ink-emphasis));
+}
+
+:root[data-flavour='editorial'] .ui-table :where(tbody td),
+:root[data-flavour='editorial'] .ui-table :where(tbody tr:hover td) {
+  border-bottom-color: var(--line, var(--color-line));
+}
+
+:root[data-flavour='editorial'] .ui-status {
+  font-weight: 600;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.04em;
+}

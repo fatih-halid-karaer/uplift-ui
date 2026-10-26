@@ -1,0 +1,64 @@
+:root[data-flavour='brutal'] {
+  --border-w: 2px;
+  --r-sm: 0;
+  --r-md: 0;
+  --r-lg: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-xl: 0;
+  --radius-2xl: 0;
+
+  --control-h: 2.5rem;
+  --control-px: 1rem;
+  --row-py: 0.75rem;
+  --row-px: 1rem;
+  --row-hover-r: 0;
+  --status-r: 0;
+  --heading-weight: 800;
+  --heading-tracking: -0.025em;
+  --label-case: uppercase;
+  --label-tracking: 0.06em;
+}
+
+:root[data-flavour='brutal']:not([data-theme='dark']) {
+  --line: var(--n-900);
+  --field-line: var(--n-900);
+  --field-line-hover: var(--n-950);
+  --color-line: var(--color-surface-900);
+  --color-field-line: var(--color-surface-900);
+  --color-field-line-hover: var(--color-surface-950);
+
+  --shadow-card: 4px 4px 0 0 var(--n-950, var(--color-surface-950));
+  --shadow-float: 6px 6px 0 0 var(--n-950, var(--color-surface-950));
+}
+
+:root[data-flavour='brutal'][data-theme='dark'] {
+  --line: var(--n-400);
+  --field-line: var(--n-400);
+  --field-line-hover: var(--n-300);
+  --color-line: var(--color-surface-400);
+  --color-field-line: var(--color-surface-400);
+  --color-field-line-hover: var(--color-surface-300);
+
+  --shadow-card: 4px 4px 0 0 color-mix(in srgb, var(--p-400, var(--color-primary-400)) 45%, #000);
+  --shadow-float: 6px 6px 0 0 var(--p-400, var(--color-primary-400));
+}
+
+:root[data-flavour='brutal'] .ui-table :where(thead th) {
+  font-size: 0.6875rem;
+  font-weight: 800;
+  color: var(--ink-emphasis, var(--color-ink-emphasis));
+  border-bottom-color: var(--ink-emphasis, var(--color-ink-emphasis));
+}
+
+:root[data-flavour='brutal'] .ui-table :where(tbody tr:hover td) {
+  background: var(--highlight, var(--color-highlight));
+}
+
+:root[data-flavour='brutal'] .ui-status {
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  box-shadow: inset 0 -0.45em 0 color-mix(in srgb, currentColor 18%, transparent);
+}

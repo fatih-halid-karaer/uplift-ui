@@ -1,0 +1,50 @@
+:root {
+  --border-w: 1px;
+  --control-h: 2.25rem;
+  --control-px: 0.875rem;
+  --control-fs: 0.875rem;
+  --row-py: 0.8125rem;
+  --row-px: 1rem;
+  --head-pt: 0.5rem;
+  --head-pb: 0.625rem;
+  --row-hover-r: 0.625rem;
+  --status-r: 0.375rem;
+  --font-display: var(--font-sans);
+  --heading-weight: 600;
+  --heading-tracking: -0.01em;
+  --label-case: none;
+  --label-tracking: 0;
+}
+
+:where(h1, h2, h3, .ui-heading) {
+  font-family: var(--font-display);
+  font-weight: var(--heading-weight);
+  letter-spacing: var(--heading-tracking);
+}
+
+.ui-table-wrap {
+  border-bottom-width: var(--border-w);
+}
+
+.ui-table :where(thead th) {
+  padding: var(--head-pt) var(--row-px) var(--head-pb);
+  border-bottom-width: var(--border-w);
+  text-transform: var(--label-case);
+  letter-spacing: var(--label-tracking);
+}
+
+.ui-table :where(tbody td) {
+  padding: var(--row-py) var(--row-px);
+}
+
+.ui-table :where(tbody tr:hover td:first-child) {
+  border-radius: var(--row-hover-r) 0 0 var(--row-hover-r);
+}
+
+.ui-table :where(tbody tr:hover td:last-child) {
+  border-radius: 0 var(--row-hover-r) var(--row-hover-r) 0;
+}
+
+.ui-status {
+  border-radius: var(--status-r);
+}
