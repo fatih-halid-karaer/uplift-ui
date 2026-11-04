@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180" width="240" height="180" role="img" aria-labelledby="ill-maintenance-title">
+<title id="ill-maintenance-title">Down for maintenance</title>
+<style>
+  .ill-bg { fill: var(--subtle, #f2f5f8); }
+  .ill-card { fill: var(--panel, #ffffff); stroke: var(--line, #d8e0e8); stroke-width: 1.5; stroke-linejoin: round; }
+  .ill-sunken { fill: var(--sunken, #e8edf2); }
+  .ill-line { fill: none; stroke: var(--line, #d8e0e8); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .ill-bar { fill: var(--line, #d8e0e8); }
+  .ill-ink { fill: none; stroke: var(--ink-muted, #64748b); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+  .ill-glow { fill: var(--highlight, rgb(47 115 224 / 0.16)); }
+  .ill-accent { fill: var(--primary, #2f73e0); }
+  .ill-stroke { fill: none; stroke: var(--primary, #2f73e0); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  .ill-dash { fill: none; stroke: var(--primary, #2f73e0); stroke-width: 2.5; stroke-linecap: round; stroke-dasharray: 2 7; }
+  .ill-zone { fill: none; stroke: var(--line, #d8e0e8); stroke-width: 2; stroke-dasharray: 6 6; }
+  .ill-on { fill: none; stroke: var(--panel, #ffffff); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  .ill-success { fill: var(--success, #16a34a); }
+  .ill-success-soft { fill: var(--success-soft, #dcfce7); }
+  .ill-warn { fill: var(--warn, #d97706); }
+  .ill-warn-soft { fill: var(--warn-soft, #fef3c7); }
+  .ill-danger { fill: var(--danger, #dc2626); }
+  .ill-danger-stroke { fill: none; stroke: var(--danger, #dc2626); stroke-width: 4; stroke-linecap: round; }
+  .ill-info { fill: var(--info, #0284c7); }
+</style>
+<path class="ill-bg" d="M42 96c0-40 34-68 80-68s76 26 76 64-30 66-78 66-78-22-78-62z"/><path class="ill-stroke" d="M190 40v10M185 45h10"/><circle class="ill-glow" cx="52" cy="54" r="8"/><circle class="ill-accent" cx="196" cy="120" r="3"/>
+<g>
+  <rect class="ill-card" x="98" y="56" width="16" height="16" rx="4" transform="rotate(0 106 92)"/>
+  <rect class="ill-card" x="98" y="56" width="16" height="16" rx="4" transform="rotate(45 106 92)"/>
+  <rect class="ill-card" x="98" y="56" width="16" height="16" rx="4" transform="rotate(90 106 92)"/>
+  <rect class="ill-card" x="98" y="56" width="16" height="16" rx="4" transform="rotate(135 106 92)"/>
+  <rect class="ill-card" x="98" y="56" width="16" height="16" rx="4" transform="rotate(180 106 92)"/>
+  <rect class="ill-card" x="98" y="56" width="16" height="16" rx="4" transform="rotate(225 106 92)"/>
+  <rect class="ill-card" x="98" y="56" width="16" height="16" rx="4" transform="rotate(270 106 92)"/>
+  <rect class="ill-card" x="98" y="56" width="16" height="16" rx="4" transform="rotate(315 106 92)"/>
+  <circle class="ill-card" cx="106" cy="92" r="28"/>
+  <circle class="ill-sunken" cx="106" cy="92" r="10"/>
+</g>
+<path class="ill-stroke" d="M134 134l26-26" style="stroke-width:8"/>
+<path class="ill-stroke" d="M160 108a12 12 0 1 0 8-18l-6 8-6-2-2-6 8-6a12 12 0 0 0-18 8" style="stroke-width:4"/>
+<rect class="ill-warn-soft" x="60" y="138" width="120" height="8" rx="4"/>
+</svg>

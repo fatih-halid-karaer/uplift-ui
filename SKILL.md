@@ -108,6 +108,8 @@ Read only what the current step needs.
 | `assets/theme-transitions.css` | sweep and circular-reveal view transitions for theme changes |
 | `assets/themes/` | 12 palette presets (`data-palette`: ocean, indigo, violet, teal, forest, sunset, rose, crimson, graphite, sand, neon, frost), 4 flavours (`data-flavour`: soft, editorial, terminal, brutal) and `hooks.css` that wires shape and density variables |
 | `assets/theme-gallery.html` | a sample admin screen where palette, flavour and light/dark can be switched live |
+| `assets/illustrations/` | 12 page-level empty, error and success illustrations (`empty-inbox`, `no-results`, `no-data`, `upload`, `no-notifications`, `no-users`, `not-found`, `forbidden`, `server-error`, `offline`, `maintenance`, `success`); inlined they take their colours from the tokens and follow palette and dark mode. When to use them: `references/data.md` §9 |
+| `assets/illustrations-gallery.html` | every illustration with palette and light/dark switching and a copy button |
 | `assets/react/tsx/` and `assets/react/jsx/` | the same React components in TypeScript and plain JavaScript; use the one matching the project |
 | ↳ feedback | `popup` + `PopupHost` (promise-based popups and confirms), `InfoTip`, `Tooltip`, `EmptyState`, `ErrorState` / `ErrorPage` (403, 500, maintenance, offline), `NotFound`, `Badge`, `StatusText`, `Progress` (bar and ring), `Skeleton` |
 | ↳ overlays | `Dialog` (bottom sheet on phones), `FormDialog`, `Drawer`, `Popover`, `DropdownMenu`, `CommandPalette` (⌘K) |

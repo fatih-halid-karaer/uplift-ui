@@ -10,6 +10,7 @@ It brings:
 - **A motion library**: about 80 animations (popups, sheets, scroll reveals, page transitions, text effects, ripples, tilt, confetti, loaders, skeletons, decorative effects, overlays, two theme transitions) with a live gallery page. All reduced-motion safe.
 - **52 React components and hooks** in both TSX and JSX: dialogs that become bottom sheets on phones, drawers, popovers, menus, a command palette, an app shell, a data table with phone cards, a tree, stat tiles, a stepper, a timeline, form fields, combobox, date picker, file drop, slider, tag input, avatars, progress, skeletons and more.
 - **An audit checklist** of real defects and their fixes.
+- **Illustrations**: 12 page-level empty, error and success illustrations (no results, no data, upload, 403, 404, 500, offline, maintenance and more) that colour themselves from the tokens, so they follow every palette and dark mode.
 - **Starter assets**: Tailwind v4 and plain-CSS token files, and a script that builds mask-based icon CSS for only the icons a codebase uses.
 
 ## Install
@@ -34,6 +35,7 @@ Open these in a browser (serve the `assets` folder, e.g. `python -m http.server`
 
 - `assets/theme-gallery.html` — switch palette, flavour and light/dark on a sample admin screen.
 - `assets/motion-gallery.html` — every animation, with replay buttons.
+- `assets/illustrations-gallery.html` — every illustration in the chosen palette, light or dark (`?palette=sunset` also works).
 
 ## Layout
 
@@ -67,6 +69,8 @@ assets/
   motion.css                   every animation as an m- class
   motion-gallery.html          live preview of all animations and theme transitions
   theme-transitions.css        sweep and circular-reveal view transitions
+  illustrations/               page-level empty, error and success SVGs that follow the tokens
+  illustrations-gallery.html   live preview of the illustrations in every palette
   react/tsx/                   components and hooks in TypeScript
   react/jsx/                   the same in JavaScript
 scripts/

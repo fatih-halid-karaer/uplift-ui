@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180" width="240" height="180" role="img" aria-labelledby="ill-not-found-title">
+<title id="ill-not-found-title">Page not found</title>
+<style>
+  .ill-bg { fill: var(--subtle, #f2f5f8); }
+  .ill-card { fill: var(--panel, #ffffff); stroke: var(--line, #d8e0e8); stroke-width: 1.5; stroke-linejoin: round; }
+  .ill-sunken { fill: var(--sunken, #e8edf2); }
+  .ill-line { fill: none; stroke: var(--line, #d8e0e8); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .ill-bar { fill: var(--line, #d8e0e8); }
+  .ill-ink { fill: none; stroke: var(--ink-muted, #64748b); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+  .ill-glow { fill: var(--highlight, rgb(47 115 224 / 0.16)); }
+  .ill-accent { fill: var(--primary, #2f73e0); }
+  .ill-stroke { fill: none; stroke: var(--primary, #2f73e0); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  .ill-dash { fill: none; stroke: var(--primary, #2f73e0); stroke-width: 2.5; stroke-linecap: round; stroke-dasharray: 2 7; }
+  .ill-zone { fill: none; stroke: var(--line, #d8e0e8); stroke-width: 2; stroke-dasharray: 6 6; }
+  .ill-on { fill: none; stroke: var(--panel, #ffffff); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  .ill-success { fill: var(--success, #16a34a); }
+  .ill-success-soft { fill: var(--success-soft, #dcfce7); }
+  .ill-warn { fill: var(--warn, #d97706); }
+  .ill-warn-soft { fill: var(--warn-soft, #fef3c7); }
+  .ill-danger { fill: var(--danger, #dc2626); }
+  .ill-danger-stroke { fill: none; stroke: var(--danger, #dc2626); stroke-width: 4; stroke-linecap: round; }
+  .ill-info { fill: var(--info, #0284c7); }
+</style>
+<path class="ill-bg" d="M42 96c0-40 34-68 80-68s76 26 76 64-30 66-78 66-78-22-78-62z"/><path class="ill-stroke" d="M190 40v10M185 45h10"/><circle class="ill-glow" cx="52" cy="54" r="8"/><circle class="ill-accent" cx="196" cy="120" r="3"/>
+<rect class="ill-sunken" x="116" y="64" width="8" height="78" rx="4"/>
+<path class="ill-card" d="M78 58h70l12 12-12 12H78a6 6 0 0 1-6-6V64a6 6 0 0 1 6-6z"/>
+<path class="ill-line" d="M86 70h44"/>
+<path class="ill-card" d="M164 90H94l-12 12 12 12h70a6 6 0 0 0 6-6V96a6 6 0 0 0-6-6z"/>
+<path class="ill-line" d="M110 102h44"/>
+<circle class="ill-glow" cx="168" cy="44" r="14"/>
+<path class="ill-stroke" d="M163 40a5 5 0 1 1 7 5c-2 1-2 2-2 4" style="stroke-width:2.5"/>
+<circle class="ill-accent" cx="168" cy="53" r="1.8"/>
+</svg>

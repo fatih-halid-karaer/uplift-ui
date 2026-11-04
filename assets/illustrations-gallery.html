@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Illustration gallery</title>
+    <script>
+      try {
+        var r = document.documentElement;
+        var t = localStorage.getItem('theme');
+        var d = t === 'dark' || (t !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
+        r.dataset.theme = d ? 'dark' : 'light';
+        var p = new URLSearchParams(location.search).get('palette') || localStorage.getItem('gallery-palette');
+        if (p) r.dataset.palette = p;
+      } catch (e) {}
+    </script>
+    <link rel="stylesheet" href="tokens.plain.css" />
+    <link rel="stylesheet" href="themes/hooks.css" />
+    <link rel="stylesheet" href="themes/ocean.css" />
+    <link rel="stylesheet" href="themes/indigo.css" />
+    <link rel="stylesheet" href="themes/violet.css" />
+    <link rel="stylesheet" href="themes/teal.css" />
+    <link rel="stylesheet" href="themes/forest.css" />
+    <link rel="stylesheet" href="themes/sunset.css" />
+    <link rel="stylesheet" href="themes/rose.css" />
+    <link rel="stylesheet" href="themes/crimson.css" />
+    <link rel="stylesheet" href="themes/graphite.css" />
+    <link rel="stylesheet" href="themes/sand.css" />
+    <link rel="stylesheet" href="themes/neon.css" />
+    <link rel="stylesheet" href="themes/frost.css" />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      body {
+        padding: var(--page-pad, 24px);
+        transition: background-color 200ms;
+      }
+      header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: end;
+        justify-content: space-between;
+        gap: 16px;
+        max-width: 1180px;
+        margin: 0 auto 24px;
+      }
+      h1 {
+        margin: 0 0 4px;
+        font-size: var(--fs-xl, 22px);
+        color: var(--ink-emphasis);
+      }
+      header p {
+        margin: 0;
+        color: var(--ink-muted);
+        max-width: 60ch;
+      }
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      select,
+      .toggle {
+        height: 34px;
+        padding: 0 12px;
+        border: 1px solid var(--field-line);
+        border-radius: var(--r-md, 8px);
+        background: var(--field);
+        color: var(--ink);
+        font: inherit;
+        cursor: pointer;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 16px;
+        max-width: 1180px;
+        margin: 0 auto;
+      }
+      .tile {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid var(--line);
+        border-radius: var(--r-lg, 12px);
+        background: var(--panel);
+        box-shadow: var(--shadow-card);
+        overflow: hidden;
+      }
+      .art {
+        flex: 1;
+        display: grid;
+        place-items: center;
+        padding: 16px 12px 8px;
+      }
+      .art svg {
+        width: 100%;
+        max-width: 240px;
+        height: auto;
+      }
+      .meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        padding: 10px 14px 14px;
+      }
+      .meta > div {
+        min-width: 0;
+      }
+      .meta strong {
+        display: block;
+        color: var(--ink-emphasis);
+        font-size: var(--fs-sm, 14px);
+      }
+      .meta code {
+        color: var(--ink-muted);
+        font-family: var(--font-mono);
+        font-size: var(--fs-xs, 12px);
+        overflow-wrap: anywhere;
+      }
+      .copy {
+        flex: none;
+        height: 28px;
+        padding: 0 10px;
+        border: 1px solid var(--line);
+        border-radius: var(--r-sm, 6px);
+        background: transparent;
+        color: var(--ink);
+        font: inherit;
+        font-size: var(--fs-xs, 12px);
+        cursor: pointer;
+      }
+      .copy:hover {
+        background: var(--subtle);
+      }
+      .note {
+        max-width: 1180px;
+        margin: 24px auto 0;
+        color: var(--ink-muted);
+        font-size: var(--fs-xs, 12px);
+      }
+      @media (max-width: 560px) {
+        header {
+          align-items: start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div>
+        <h1>Illustrations</h1>
+        <p>Empty, error and success states. Inlined, they take their colours from the active palette and follow light and dark mode.</p>
+      </div>
+      <div class="controls">
+        <select id="palette" aria-label="Palette">
+          <option value="">default</option>
+          <option>ocean</option>
+          <option>indigo</option>
+          <option>violet</option>
+          <option>teal</option>
+          <option>forest</option>
+          <option>sunset</option>
+          <option>rose</option>
+          <option>crimson</option>
+          <option>graphite</option>
+          <option>sand</option>
+          <option>neon</option>
+          <option>frost</option>
+        </select>
+        <button class="toggle" id="theme" type="button">Toggle dark</button>
+      </div>
+    </header>
+
+    <main class="grid" id="grid"></main>
+
+    <p class="note">Serve this folder (for example <code>python -m http.server</code> inside <code>assets</code>) so the SVG files can be loaded.</p>
+
+    <script>
+      var NAMES = [
+        'empty-inbox',
+        'no-results',
+        'no-data',
+        'upload',
+        'no-notifications',
+        'no-users',
+        'not-found',
+        'forbidden',
+        'server-error',
+        'offline',
+        'maintenance',
+        'success'
+      ];
+      var root = document.documentElement;
+      var grid = document.getElementById('grid');
+      var palette = document.getElementById('palette');
+
+      function store(key, value) {
+        try {
+          if (value) localStorage.setItem(key, value);
+          else localStorage.removeItem(key);
+        } catch (e) {}
+      }
+
+      palette.value = root.dataset.palette || '';
+      palette.addEventListener('change', function () {
+        if (palette.value) root.dataset.palette = palette.value;
+        else delete root.dataset.palette;
+        store('gallery-palette', palette.value);
+      });
+
+      document.getElementById('theme').addEventListener('click', function () {
+        var next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+        root.dataset.theme = next;
+        store('theme', next);
+      });
+
+      NAMES.forEach(function (name) {
+        var tile = document.createElement('article');
+        tile.className = 'tile';
+        tile.innerHTML =
+          '<div class="art" aria-live="polite"></div>' +
+          '<div class="meta"><div><strong></strong><code>' + name + '.svg</code></div>' +
+          '<button class="copy" type="button">Copy SVG</button></div>';
+        grid.appendChild(tile);
+        fetch('illustrations/' + name + '.svg')
+          .then(function (response) {
+            return response.text();
+          })
+          .then(function (svg) {
+            tile.querySelector('.art').innerHTML = svg;
+            var title = tile.querySelector('svg title');
+            tile.querySelector('strong').textContent = title ? title.textContent : name;
+            var button = tile.querySelector('.copy');
+            button.addEventListener('click', function () {
+              navigator.clipboard.writeText(svg).then(function () {
+                button.textContent = 'Copied';
+                setTimeout(function () {
+                  button.textContent = 'Copy SVG';
+                }, 1200);
+              });
+            });
+          });
+      });
+    </script>
+  </body>
+</html>

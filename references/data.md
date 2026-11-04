@@ -109,6 +109,13 @@ Four different states, four different messages:
 
 The corner badge must match the icon the page uses in navigation or tabs; a generic inbox icon on every page looks templated. Lay the empty state out horizontally (mark left, text right) in wide containers and stacked on narrow ones (container query `@md`).
 
+When the empty or error state fills a whole page or a large panel (first use of a module, 403, 404, 500, offline, maintenance, a finished wizard), a larger illustration reads better than the small mark. `assets/illustrations/` has twelve: `empty-inbox`, `no-results`, `no-data`, `upload`, `no-notifications`, `no-users`, `not-found`, `forbidden`, `server-error`, `offline`, `maintenance`, `success`.
+
+- Inline them (paste the SVG, or import it as a string, for example `?raw` in Vite, and render it into a wrapper). Inlined, they colour themselves from the tokens (`--subtle`, `--panel`, `--line`, `--primary`, `--highlight` and the status colours), so they follow the palette and dark mode. Through `<img>` they fall back to a neutral blue default.
+- Size them to about 160 to 240 px wide, centred above the title; mark them `aria-hidden` when the title next to them already says the same thing.
+- Use them for page-level states only. A table that is empty because of a filter keeps the compact no-match row; an illustration per table makes an admin screen look like a marketing page.
+- Pick the one that matches the situation; showing the same artwork for "no data" and "something went wrong" teaches users to ignore it.
+
 ## 10. Trees
 
 - Rows: chevron, folder icon (open/closed), name, optional count badge, then hover-revealed row actions: `+` (add child), pencil (rename), trash (delete). This removes the need for a separate details card that only holds those buttons.
