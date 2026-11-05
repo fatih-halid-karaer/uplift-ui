@@ -96,6 +96,7 @@ Read only what the current step needs.
 | `references/dark-mode.md` | dark surfaces and elevation, brand and status colours in dark, charts/maps/widgets, no flash |
 | `references/navigation.md` | information architecture, URL state, breadcrumbs, back behaviour, search, command palette |
 | `references/performance-perceived.md` | loading thresholds, skeletons, optimistic UI, prefetching, layout shift |
+| `references/surfaces.md` | modern backgrounds (mesh, dots, grid, noise), patterns, glass and gradient-border cards, bento grid, section heads, pills, avatar stack, progress ring, dock, device frames, motif marks; and when not to use them |
 
 ## Assets
 
@@ -110,6 +111,10 @@ Read only what the current step needs.
 | `assets/theme-gallery.html` | a sample admin screen where palette, flavour and light/dark can be switched live |
 | `assets/illustrations/` | 12 page-level empty, error and success illustrations (`empty-inbox`, `no-results`, `no-data`, `upload`, `no-notifications`, `no-users`, `not-found`, `forbidden`, `server-error`, `offline`, `maintenance`, `success`); inlined they take their colours from the tokens and follow palette and dark mode. When to use them: `references/data.md` §9 |
 | `assets/illustrations-gallery.html` | every illustration with palette and light/dark switching and a copy button |
+| `assets/surfaces.css` | modern surfaces as `s-` classes: mesh, dot, grid, line, spot and noise backgrounds; raised, inset, glass, gradient-border, lift and deck cards; bento grid; section head, eyebrow, display, lead, marker; pill, avatar stack, metric, progress ring, dock; browser and phone frames. Token-driven, with reduced-transparency, reduced-motion and forced-colors fallbacks. When to use them: `references/surfaces.md` |
+| `assets/patterns/` | 8 tileable SVG patterns (`dots`, `grid`, `cross`, `diagonal`, `waves`, `hexagons`, `rings`, `circuit`) used as CSS masks so they take a token colour |
+| `assets/marks/` | 12 single-colour 24px motif marks (`compass`, `beam`, `blueprint`, `pulse`, `route`, `orbit`, `layers`, `spark`, `shield`, `nodes`, `wave`, `leaf`) drawn with `currentColor`, starting points for the logo, loader and empty-state motif |
+| `assets/surfaces-gallery.html` | every surface, pattern and mark with palette and light/dark switching |
 | `assets/react/tsx/` and `assets/react/jsx/` | the same React components in TypeScript and plain JavaScript; use the one matching the project |
 | ↳ feedback | `popup` + `PopupHost` (promise-based popups and confirms), `InfoTip`, `Tooltip`, `EmptyState`, `ErrorState` / `ErrorPage` (403, 500, maintenance, offline), `NotFound`, `Badge`, `StatusText`, `Progress` (bar and ring), `Skeleton` |
 | ↳ overlays | `Dialog` (bottom sheet on phones), `FormDialog`, `Drawer`, `Popover`, `DropdownMenu`, `CommandPalette` (⌘K) |

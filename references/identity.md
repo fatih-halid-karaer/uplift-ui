@@ -16,6 +16,8 @@ Derive one visual motif from the product's name or domain: a compass for a navig
 
 Ask the user (or read the README) for the product name and what it does before choosing. Offer two or three motif ideas with a one-line rationale each, recommend one.
 
+`assets/marks/` has twelve starting marks (compass, beam, blueprint, pulse, route, orbit, layers, spark, shield, nodes, wave, leaf) and `assets/patterns/` has matching background patterns; show them in `surfaces-gallery.html` with the chosen palette, then adapt the drawing to the product instead of shipping a stock mark as the logo (`references/surfaces.md` §3, §9).
+
 ## 2. Palette
 
 - One brand hue, built as an eleven-step ramp (see tokens.md), with a neutral ramp tinted toward it.

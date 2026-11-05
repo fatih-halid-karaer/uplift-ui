@@ -10,6 +10,7 @@ It brings:
 - **A motion library**: about 80 animations (popups, sheets, scroll reveals, page transitions, text effects, ripples, tilt, confetti, loaders, skeletons, decorative effects, overlays, two theme transitions) with a live gallery page. All reduced-motion safe.
 - **52 React components and hooks** in both TSX and JSX: dialogs that become bottom sheets on phones, drawers, popovers, menus, a command palette, an app shell, a data table with phone cards, a tree, stat tiles, a stepper, a timeline, form fields, combobox, date picker, file drop, slider, tag input, avatars, progress, skeletons and more.
 - **An audit checklist** of real defects and their fixes.
+- **Modern surfaces**: mesh, dot, grid and noise backgrounds, glass and gradient-border cards, a responsive bento grid, section heads, pills, avatar stacks, progress rings, a floating dock and device frames, plus 8 tileable patterns and 12 motif marks, all driven by the tokens.
 - **Illustrations**: 12 page-level empty, error and success illustrations (no results, no data, upload, 403, 404, 500, offline, maintenance and more) that colour themselves from the tokens, so they follow every palette and dark mode.
 - **Starter assets**: Tailwind v4 and plain-CSS token files, and a script that builds mask-based icon CSS for only the icons a codebase uses.
 
@@ -36,6 +37,7 @@ Open these in a browser (serve the `assets` folder, e.g. `python -m http.server`
 - `assets/theme-gallery.html` — switch palette, flavour and light/dark on a sample admin screen.
 - `assets/motion-gallery.html` — every animation, with replay buttons.
 - `assets/illustrations-gallery.html` — every illustration in the chosen palette, light or dark (`?palette=sunset` also works).
+- `assets/surfaces-gallery.html` — backgrounds, cards, bento, bits, frames, patterns and marks in the chosen palette, light or dark.
 
 ## Layout
 
@@ -61,6 +63,7 @@ references/
   accessibility.md             per-component checklist, focus, testing
   microcopy.md                 labels, errors, empty states, dates and numbers
   performance-perceived.md     loading thresholds, skeletons, optimistic UI
+  surfaces.md                  modern backgrounds, cards, bento, patterns, marks and when not to use them
 assets/
   tokens.tailwind.css          Tailwind v4 starter
   tokens.plain.css             plain CSS custom properties with a dark block
@@ -71,6 +74,10 @@ assets/
   theme-transitions.css        sweep and circular-reveal view transitions
   illustrations/               page-level empty, error and success SVGs that follow the tokens
   illustrations-gallery.html   live preview of the illustrations in every palette
+  surfaces.css                 modern backgrounds, cards, bento grid, section heads, bits and frames (s- classes)
+  patterns/                    tileable SVG patterns used as CSS masks
+  marks/                       single-colour motif marks for logo, loader and empty states
+  surfaces-gallery.html        live preview of surfaces, patterns and marks
   react/tsx/                   components and hooks in TypeScript
   react/jsx/                   the same in JavaScript
 scripts/

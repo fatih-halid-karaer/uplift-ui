@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Surface gallery</title>
+    <script>
+      try {
+        var r = document.documentElement;
+        var t = localStorage.getItem('theme');
+        var d = t === 'dark' || (t !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
+        r.dataset.theme = d ? 'dark' : 'light';
+        var q = new URLSearchParams(location.search).get('palette');
+        var p = q || localStorage.getItem('gallery-palette');
+        if (p) r.dataset.palette = p;
+      } catch (e) {}
+    </script>
+    <link rel="stylesheet" href="tokens.plain.css" />
+    <link rel="stylesheet" href="themes/hooks.css" />
+    <link rel="stylesheet" href="themes/ocean.css" />
+    <link rel="stylesheet" href="themes/indigo.css" />
+    <link rel="stylesheet" href="themes/violet.css" />
+    <link rel="stylesheet" href="themes/teal.css" />
+    <link rel="stylesheet" href="themes/forest.css" />
+    <link rel="stylesheet" href="themes/sunset.css" />
+    <link rel="stylesheet" href="themes/rose.css" />
+    <link rel="stylesheet" href="themes/crimson.css" />
+    <link rel="stylesheet" href="themes/graphite.css" />
+    <link rel="stylesheet" href="themes/sand.css" />
+    <link rel="stylesheet" href="themes/neon.css" />
+    <link rel="stylesheet" href="themes/frost.css" />
+    <link rel="stylesheet" href="surfaces.css" />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: var(--page-pad, 24px);
+        background: var(--canvas);
+        color: var(--ink);
+        font-family: var(--font-sans);
+        transition: background-color 200ms;
+      }
+      .wrap {
+        max-width: 1180px;
+        margin: 0 auto;
+      }
+      header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: end;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 28px;
+      }
+      h1 {
+        margin: 0 0 4px;
+        font-size: var(--fs-xl, 22px);
+        color: var(--ink-emphasis);
+      }
+      h2 {
+        margin: 40px 0 6px;
+        font-size: var(--fs-lg, 18px);
+        color: var(--ink-emphasis);
+      }
+      header p,
+      .intro {
+        margin: 0 0 14px;
+        color: var(--ink-muted);
+        max-width: 70ch;
+      }
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      select,
+      .toggle {
+        height: 34px;
+        padding: 0 12px;
+        border: 1px solid var(--field-line);
+        border-radius: var(--r-md, 8px);
+        background: var(--field);
+        color: var(--ink);
+        font: inherit;
+        cursor: pointer;
+      }
+      .tiles {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 14px;
+      }
+      .tile {
+        display: grid;
+        grid-template-rows: 150px auto;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: var(--r-lg, 12px);
+        background: var(--panel);
+      }
+      .tile > div:first-child {
+        position: relative;
+        display: grid;
+        place-items: center;
+        padding: 16px;
+      }
+      .tile code,
+      .label code {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: var(--ink-muted);
+        font-family: var(--font-mono);
+        font-size: var(--fs-xs, 12px);
+      }
+      .tile > .label {
+        min-width: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        padding: 10px 14px;
+        border-top: 1px solid var(--line-soft);
+        font-size: var(--fs-sm, 13px);
+        color: var(--ink-emphasis);
+      }
+      .demo-card {
+        width: 100%;
+        height: 100%;
+        padding: 14px;
+        font-size: 13px;
+      }
+      .demo-card b {
+        display: block;
+        margin-bottom: 4px;
+        color: var(--ink-emphasis);
+      }
+      .demo-card span {
+        color: var(--ink-muted);
+      }
+      .stage {
+        padding: 22px;
+        border-radius: var(--r-lg, 12px);
+      }
+      .bento-cell {
+        padding: 16px;
+      }
+      .bento-cell h3 {
+        margin: 0 0 6px;
+        color: var(--ink-emphasis);
+        font-size: 14px;
+      }
+      .bento-cell p {
+        margin: 0;
+        color: var(--ink-muted);
+        font-size: 13px;
+      }
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
+      }
+      .marks {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 12px;
+      }
+      .mark {
+        display: grid;
+        justify-items: center;
+        gap: 8px;
+        padding: 16px 8px 12px;
+        border: 1px solid var(--line);
+        border-radius: var(--r-lg, 12px);
+        background: var(--panel);
+        font-size: 12px;
+        color: var(--ink-muted);
+      }
+      .mark-frame {
+        display: grid;
+        place-items: center;
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        background: var(--highlight);
+        color: var(--primary);
+      }
+      .mark-frame svg {
+        width: 28px;
+        height: 28px;
+      }
+      .frames {
+        display: grid;
+        grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+        align-items: center;
+        gap: 24px;
+      }
+      @media (max-width: 760px) {
+        .frames {
+          grid-template-columns: 1fr;
+          justify-items: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <div>
+          <h1>Surfaces</h1>
+          <p>Modern backgrounds, cards, layout pieces, patterns and motif marks from <code>surfaces.css</code>. Everything takes its colour from the tokens, so switch the palette and the theme to check it.</p>
+        </div>
+        <div class="controls">
+          <select id="palette" aria-label="Palette">
+            <option value="">default</option>
+            <option>ocean</option>
+            <option>indigo</option>
+            <option>violet</option>
+            <option>teal</option>
+            <option>forest</option>
+            <option>sunset</option>
+            <option>rose</option>
+            <option>crimson</option>
+            <option>graphite</option>
+            <option>sand</option>
+            <option>neon</option>
+            <option>frost</option>
+          </select>
+          <button class="toggle" id="theme" type="button">Toggle dark</button>
+        </div>
+      </header>
+
+      <h2>Hero</h2>
+      <p class="intro">A section head on a mesh background with noise: eyebrow, display title, marker, lead and social proof.</p>
+      <section class="stage s-bg-mesh s-noise">
+        <div class="s-section-head">
+          <span class="s-eyebrow"><b>New</b> Shared trips are live</span>
+          <h3 class="s-display">Plan the trip, <span class="s-marker">not the spreadsheet</span></h3>
+          <p class="s-lead">Days, routes and bookings in one place. Opening hours and travel times are checked for you.</p>
+          <div class="row">
+            <span class="s-avatar-stack"><span>AK</span><span>ZB</span><span>ME</span><span class="is-more">+9</span></span>
+            <span class="s-pill"><i class="s-dot"></i> 1,240 trips planned this week</span>
+          </div>
+        </div>
+      </section>
+
+      <h2>Backgrounds</h2>
+      <p class="intro">Use one per region. Patterns sit behind content at low contrast; fade them out at the edges.</p>
+      <div class="tiles">
+        <div class="tile"><div class="s-bg-dots s-fade-radial"></div><div class="label">Dots <code>.s-bg-dots</code></div></div>
+        <div class="tile"><div class="s-bg-grid s-fade-radial"></div><div class="label">Grid <code>.s-bg-grid</code></div></div>
+        <div class="tile"><div class="s-bg-lines"></div><div class="label">Lines <code>.s-bg-lines</code></div></div>
+        <div class="tile"><div class="s-bg-mesh"></div><div class="label">Mesh <code>.s-bg-mesh</code></div></div>
+        <div class="tile"><div class="s-bg-spot"></div><div class="label">Spot <code>.s-bg-spot</code></div></div>
+        <div class="tile"><div class="s-bg-mesh s-noise" style="--s-noise-strength: 0.12"></div><div class="label">Noise <code>.s-noise</code></div></div>
+      </div>
+
+      <h2>Patterns</h2>
+      <p class="intro">Tileable SVGs in <code>patterns/</code>, used as a CSS mask so the colour comes from <code>--s-pattern-ink</code>.</p>
+      <div class="tiles" id="patterns"></div>
+
+      <h2>Cards</h2>
+      <div class="tiles">
+        <div class="tile"><div><div class="demo-card s-card"><b>Card</b><span>Panel, line, soft shadow.</span></div></div><div class="label">Card <code>.s-card</code></div></div>
+        <div class="tile"><div><div class="demo-card s-card-raised"><b>Raised</b><span>Top highlight and layered shadow.</span></div></div><div class="label">Raised <code>.s-card-raised</code></div></div>
+        <div class="tile"><div><div class="demo-card s-card-inset"><b>Inset</b><span>A well for secondary content.</span></div></div><div class="label">Inset <code>.s-card-inset</code></div></div>
+        <div class="tile"><div class="s-bg-mesh"><div class="demo-card s-glass"><b>Glass</b><span>Only over a busy background.</span></div></div><div class="label">Glass <code>.s-glass</code></div></div>
+        <div class="tile"><div><div class="demo-card s-gradient-border"><b>Gradient border</b><span>For the one featured item.</span></div></div><div class="label">Border <code>.s-gradient-border</code></div></div>
+        <div class="tile"><div><div class="demo-card s-card s-lift"><b>Lift</b><span>Hover me.</span></div></div><div class="label">Hover <code>.s-lift</code></div></div>
+        <div class="tile"><div style="padding-bottom: 28px"><div class="demo-card s-card s-deck" style="isolation: isolate"><b>Deck</b><span>A stack of more items.</span></div></div><div class="label">Deck <code>.s-deck</code></div></div>
+      </div>
+
+      <h2>Bento</h2>
+      <p class="intro">Feature or overview grid; collapses to two columns below 900px and one below 560px.</p>
+      <div class="s-bento" style="--s-row: 120px">
+        <div class="s-card-raised bento-cell s-span-2 s-row-2 s-bg-spot">
+          <span class="s-eyebrow">Smart days</span>
+          <h3 style="margin-top: 12px">Routes that respect opening hours</h3>
+          <p>Stops are ordered by distance, travel mode and when each place is open.</p>
+        </div>
+        <div class="s-card bento-cell"><div class="s-metric"><b>4.8 km</b><span>walked today</span></div></div>
+        <div class="s-card bento-cell row"><span class="s-ring" style="--s-value: 0.72">72%</span><p>of the budget used</p></div>
+        <div class="s-card bento-cell s-span-2"><h3>Travelling together</h3><div class="row"><span class="s-avatar-stack"><span>AK</span><span>ZB</span><span>ME</span></span><p>3 people editing</p></div></div>
+      </div>
+
+      <h2>Bits</h2>
+      <div class="s-card stage" style="display: grid; gap: 18px">
+        <div class="row">
+          <span class="s-pill"><i class="s-dot"></i> Online</span>
+          <span class="s-pill" style="--s-dot: var(--warn)"><i class="s-dot"></i> Syncing</span>
+          <span class="s-pill" style="--s-dot: var(--danger)"><i class="s-dot"></i> Offline</span>
+          <span class="s-eyebrow"><b>Beta</b> Offline maps</span>
+          <span class="s-ring" style="--s-value: 0.35; --s-ring-size: 44px">35%</span>
+          <span class="s-avatar-stack" style="--s-avatar: 26px"><span>A</span><span>B</span><span>C</span><span class="is-more">+4</span></span>
+        </div>
+        <div class="s-divider-label">or continue with</div>
+        <hr class="s-hairline" />
+        <div class="s-dock is-static"><div><span class="s-pill">Day 1</span><span class="s-pill">Day 2</span><span class="s-pill">Map</span><span class="s-pill">Budget</span></div></div>
+      </div>
+
+      <h2>Frames</h2>
+      <p class="intro">For screenshots on landing and onboarding pages.</p>
+      <div class="frames">
+        <div class="s-browser">
+          <div class="s-browser-bar"><i></i><i></i><i></i><span></span></div>
+          <div class="s-bg-dots s-fade-edges" style="height: 220px"></div>
+        </div>
+        <div class="s-phone" style="--s-phone-w: 200px"><div class="s-bg-mesh"></div></div>
+      </div>
+
+      <h2>Motif marks</h2>
+      <p class="intro">Single-colour 24px marks in <code>marks/</code> for logo, loader and empty-state motifs. They draw with <code>currentColor</code>.</p>
+      <div class="marks" id="marks"></div>
+    </div>
+
+    <script>
+      var PATTERNS = ['dots', 'grid', 'cross', 'diagonal', 'waves', 'hexagons', 'rings', 'circuit'];
+      var MARKS = ['compass', 'beam', 'blueprint', 'pulse', 'route', 'orbit', 'layers', 'spark', 'shield', 'nodes', 'wave', 'leaf'];
+      var root = document.documentElement;
+      var palette = document.getElementById('palette');
+
+      function store(key, value) {
+        try {
+          if (value) localStorage.setItem(key, value);
+          else localStorage.removeItem(key);
+        } catch (e) {}
+      }
+
+      palette.value = root.dataset.palette || '';
+      palette.addEventListener('change', function () {
+        if (palette.value) root.dataset.palette = palette.value;
+        else delete root.dataset.palette;
+        store('gallery-palette', palette.value);
+      });
+
+      document.getElementById('theme').addEventListener('click', function () {
+        var next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+        root.dataset.theme = next;
+        store('theme', next);
+      });
+
+      var patterns = document.getElementById('patterns');
+      PATTERNS.forEach(function (name) {
+        var tile = document.createElement('div');
+        tile.className = 'tile';
+        tile.innerHTML =
+          '<div class="s-pattern is-faded" style="--s-pattern-url: url(patterns/' + name + '.svg); --s-pattern-ink: color-mix(in srgb, var(--primary) 45%, transparent)"></div>' +
+          '<div class="label">' + name + ' <code>patterns/' + name + '.svg</code></div>';
+        patterns.appendChild(tile);
+      });
+
+      var marks = document.getElementById('marks');
+      MARKS.forEach(function (name) {
+        var item = document.createElement('div');
+        item.className = 'mark';
+        item.innerHTML = '<span class="mark-frame"></span><span>' + name + '</span>';
+        marks.appendChild(item);
+        fetch('marks/' + name + '.svg')
+          .then(function (response) {
+            return response.text();
+          })
+          .then(function (svg) {
+            item.querySelector('.mark-frame').innerHTML = svg;
+          });
+      });
+    </script>
+  </body>
+</html>
