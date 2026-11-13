@@ -49,6 +49,9 @@ For each page, apply the patterns that fit:
 | Different tab styles, boxed tabs | One sliding-underline tab style | layout-responsive.md §6 |
 | Breaks on phones | Shell drawer, wrapping toolbars, dialog sizing, card fallback | layout-responsive.md §8 |
 | Raw values (cron, enums, timestamps) | Human text first, raw value second | data.md §8 |
+| Boxes in boxes, no clear panel structure | `b-panel` head/body/foot, one job per panel, `b-split` for record pages | blocks.md §1 |
+| Plain, cramped or unreadable table | `b-table` modifiers and cell types, bulk bar, stack on phones | blocks.md §2 |
+| Dated or forced-dark sign-in page | `b-auth` layout with SSO, code, strength and link-sent steps | blocks.md §3 |
 
 After each page: type-check, run the tests, look at it in light and dark and at phone width, and show the user. Keep each step small enough to review in a minute.
 
@@ -97,6 +100,7 @@ Read only what the current step needs.
 | `references/navigation.md` | information architecture, URL state, breadcrumbs, back behaviour, search, command palette |
 | `references/performance-perceived.md` | loading thresholds, skeletons, optimistic UI, prefetching, layout shift |
 | `references/surfaces.md` | modern backgrounds (mesh, dots, grid, noise), patterns, glass and gradient-border cards, bento grid, section heads, pills, avatar stack, progress ring, dock, device frames, motif marks; and when not to use them |
+| `references/blocks.md` | ready-made blocks: panels, split with sticky inspector, collapsible sections, callouts, key-value lists, sticky action bar; table styles (dense, zebra, ruled, sticky first column, groups, expandable rows, cell types, bulk bar, row cards, comparison, stack on phones); sign-in layouts (split, center, glass, minimal) with SSO, two-step code, password strength and link-sent pieces |
 
 ## Assets
 
@@ -115,12 +119,15 @@ Read only what the current step needs.
 | `assets/patterns/` | 8 tileable SVG patterns (`dots`, `grid`, `cross`, `diagonal`, `waves`, `hexagons`, `rings`, `circuit`) used as CSS masks so they take a token colour |
 | `assets/marks/` | 12 single-colour 24px motif marks (`compass`, `beam`, `blueprint`, `pulse`, `route`, `orbit`, `layers`, `spark`, `shield`, `nodes`, `wave`, `leaf`) drawn with `currentColor`, starting points for the logo, loader and empty-state motif |
 | `assets/surfaces-gallery.html` | every surface, pattern and mark with palette and light/dark switching |
+| `assets/blocks.css` | page blocks as `b-` classes: containers (`b-container`, `b-panel` with head/body/foot, `b-split`, `b-collapse`, `b-callout`, `b-kv`, `b-actionbar`), a table system (`b-table` in `b-table-wrap` with dense, zebra, ruled, sticky-first and stack modifiers; group and detail rows; user, state, meter, sparkline and row-action cells; `b-bulkbar`; `b-rowcards`; `b-compare`) and sign-in pieces (`b-auth` split/center/glass/minimal, brand panel, fields, SSO, OTP, strength meter, alert, link-sent). Token- and flavour-driven, with reduced-motion, reduced-transparency and forced-colors fallbacks. When to use them: `references/blocks.md` |
+| `assets/blocks-gallery.html` | every block live: table modifiers, row selection and expansion, and each sign-in layout and step, with palette, flavour and light/dark switching |
 | `assets/react/tsx/` and `assets/react/jsx/` | the same React components in TypeScript and plain JavaScript; use the one matching the project |
 | ↳ feedback | `popup` + `PopupHost` (promise-based popups and confirms), `InfoTip`, `Tooltip`, `EmptyState`, `ErrorState` / `ErrorPage` (403, 500, maintenance, offline), `NotFound`, `Badge`, `StatusText`, `Progress` (bar and ring), `Skeleton` |
 | ↳ overlays | `Dialog` (bottom sheet on phones), `FormDialog`, `Drawer`, `Popover`, `DropdownMenu`, `CommandPalette` (⌘K) |
 | ↳ layout | `AppShell` (resizable, collapsible sidebar; drawer on phones), `SplitPane` (master/detail, stacks below 1024px), `PageHeading`, `Breadcrumbs`, `Tabs`, `SegmentedControl`, `Accordion`, `Stepper`, `ThemeSwitcher`, `Button` |
 | ↳ forms | `Field` (+ `TextInput`, `Textarea`, `PasswordInput`), `Select`, `FilterSelect` (styled filter dropdown chip), `Combobox` (single and multi), `Checkbox`, `RadioGroup`, `Slider`, `TagInput`, `Rating`, `DatePicker`, `FileDrop`, `ToggleSwitch`, `Kbd`, `Avatar` |
 | ↳ data | `DataTable` (sort, selection, expandable rows, paging, cards on phones), `TableToolbar` + `FilterPanel`, `useTableFilters`, `pager` (`usePaged`, `Pager`), `Tree` (keyboard, row actions, paged roots), `StatTile` + `StatGrid` (count-up, delta, sparkline), `Timeline` |
+| ↳ blocks | `Panel` + `KeyValue`, `AuthLayout` (+ `AuthBrand`, `AuthHead`, `AuthLogo`, `SsoButtons`, `AuthDivider`, `AuthAlert`, `AuthSent`), `OtpInput` (paste, arrows, backspace, one-time-code autofill), `PasswordStrength` (+ `scorePassword`); these use `blocks.css` classes instead of Tailwind |
 | ↳ hooks | `theme` (light/dark/system, pre-paint script), `motion` (reveal, count-up, typewriter, scramble, odometer, ripple, magnetic, tilt, FLIP, sliding indicator, view transitions…), `layout` (media query, resize handle), `overlay` (modal focus handling, anchored positioning), `floating` (small popovers, dismiss) |
 | `scripts/build_icon_css.py` | scans the source for used icon names and writes mask-based CSS from a Lucide SVG folder |
 

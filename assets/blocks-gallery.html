@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Block gallery</title>
+    <script>
+      try {
+        var r = document.documentElement;
+        var t = localStorage.getItem('theme');
+        var d = t === 'dark' || (t !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
+        r.dataset.theme = d ? 'dark' : 'light';
+        var q = new URLSearchParams(location.search).get('palette');
+        var p = q || localStorage.getItem('gallery-palette');
+        if (p) r.dataset.palette = p;
+        var f = localStorage.getItem('gallery-flavour');
+        if (f) r.dataset.flavour = f;
+      } catch (e) {}
+    </script>
+    <link rel="stylesheet" href="tokens.plain.css" />
+    <link rel="stylesheet" href="themes/hooks.css" />
+    <link rel="stylesheet" href="themes/ocean.css" />
+    <link rel="stylesheet" href="themes/indigo.css" />
+    <link rel="stylesheet" href="themes/violet.css" />
+    <link rel="stylesheet" href="themes/teal.css" />
+    <link rel="stylesheet" href="themes/forest.css" />
+    <link rel="stylesheet" href="themes/sunset.css" />
+    <link rel="stylesheet" href="themes/rose.css" />
+    <link rel="stylesheet" href="themes/crimson.css" />
+    <link rel="stylesheet" href="themes/graphite.css" />
+    <link rel="stylesheet" href="themes/sand.css" />
+    <link rel="stylesheet" href="themes/neon.css" />
+    <link rel="stylesheet" href="themes/frost.css" />
+    <link rel="stylesheet" href="themes/flavour-soft.css" />
+    <link rel="stylesheet" href="themes/flavour-editorial.css" />
+    <link rel="stylesheet" href="themes/flavour-terminal.css" />
+    <link rel="stylesheet" href="themes/flavour-brutal.css" />
+    <link rel="stylesheet" href="blocks.css" />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding-block: var(--page-pad, 24px) 64px;
+        background: var(--canvas);
+        color: var(--ink);
+        font-family: var(--font-sans);
+        transition: background-color 200ms;
+      }
+      header.top {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: end;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 8px;
+      }
+      h1 {
+        margin: 0 0 4px;
+        font-size: var(--fs-xl, 22px);
+        color: var(--ink-emphasis);
+      }
+      h2 {
+        margin: 48px 0 6px;
+        font-size: var(--fs-lg, 18px);
+        color: var(--ink-emphasis);
+      }
+      h3 {
+        margin: 28px 0 10px;
+        font-size: var(--fs-base, 15px);
+        color: var(--ink-emphasis);
+      }
+      .intro {
+        margin: 0 0 16px;
+        color: var(--ink-muted);
+        max-width: 72ch;
+      }
+      code {
+        font-family: var(--font-mono);
+        font-size: 0.85em;
+        padding: 1px 5px;
+        border-radius: 5px;
+        background: var(--subtle);
+        color: var(--ink-emphasis);
+      }
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      select {
+        height: 36px;
+        padding: 0 10px;
+        border: var(--border-w, 1px) solid var(--line);
+        border-radius: var(--r-md, 10px);
+        background: var(--panel);
+        color: var(--ink);
+        font: inherit;
+      }
+      .demo-toggles {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 12px;
+      }
+      .demo-toggles .b-btn[aria-pressed='true'] {
+        border-color: var(--primary);
+        background: color-mix(in srgb, var(--primary) 10%, var(--panel));
+        color: var(--ink-emphasis);
+      }
+      .frame {
+        position: relative;
+        overflow: hidden;
+        border: var(--border-w, 1px) solid var(--line);
+        border-radius: var(--r-lg, 14px);
+        background: var(--panel);
+        box-shadow: var(--shadow-card);
+      }
+      .frame .b-auth {
+        min-height: 640px;
+      }
+      .frame.is-bar {
+        height: 220px;
+        display: flex;
+        flex-direction: column;
+      }
+      .frame.is-bar > .fill {
+        flex: 1 1 auto;
+        overflow: auto;
+        padding: 18px;
+        color: var(--ink-muted);
+      }
+      .muted {
+        color: var(--ink-muted);
+      }
+      .two {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+        gap: 16px;
+      }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="b-container">
+      <header class="top">
+        <div>
+          <h1>Block gallery</h1>
+          <p class="intro">Containers, table layouts and sign-in pieces from <code>blocks.css</code>. Switch palette, flavour and theme to check each block keeps its shape and contrast. Guidance: <code>references/blocks.md</code>.</p>
+        </div>
+        <div class="controls">
+          <label class="sr-only" for="palette">Palette</label>
+          <select id="palette">
+            <option value="">Default</option>
+            <option>ocean</option><option>indigo</option><option>violet</option><option>teal</option><option>forest</option><option>sunset</option>
+            <option>rose</option><option>crimson</option><option>graphite</option><option>sand</option><option>neon</option><option>frost</option>
+          </select>
+          <label class="sr-only" for="flavour">Flavour</label>
+          <select id="flavour">
+            <option value="">Calm</option><option>soft</option><option>editorial</option><option>terminal</option><option>brutal</option>
+          </select>
+          <button class="b-btn" id="theme" type="button">Light / dark</button>
+        </div>
+      </header>
+
+      <h2>Containers</h2>
+      <p class="intro">Panels carry a head (title, meta, actions), a body and an optional foot. Use one panel per job; nest tables flush inside them instead of boxing a table in a box.</p>
+
+      <div class="b-grid" style="--b-min: 300px">
+        <section class="b-panel">
+          <div class="b-panel-head">
+            <div class="b-panel-title"><h3 style="margin: 0">Capacity this week</h3><small>Updated 4 min ago</small></div>
+            <div class="b-panel-actions"><button class="b-btn is-sm" type="button">Export</button></div>
+          </div>
+          <div class="b-panel-body">
+            <dl class="b-kv is-stacked">
+              <div><dt>Used</dt><dd>68.4 TB</dd></div>
+              <div><dt>Free</dt><dd>31.6 TB</dd></div>
+              <div><dt>Growth</dt><dd>+2.1 TB / wk</dd></div>
+              <div><dt>Full in</dt><dd>15 weeks</dd></div>
+            </dl>
+          </div>
+          <div class="b-panel-foot"><span>3 clusters</span><a class="b-link" href="#containers">Open report</a></div>
+        </section>
+
+        <section class="b-panel is-accent">
+          <div class="b-panel-head">
+            <div class="b-panel-title"><h3 style="margin: 0">Maintenance window</h3><small>Accent panel for the one thing that needs attention</small></div>
+          </div>
+          <div class="b-panel-body b-stack" style="--b-gap: 0.75rem">
+            <dl class="b-kv">
+              <dt>Starts</dt><dd>Sat 16 Nov, 02:00</dd>
+              <dt>Duration</dt><dd>3 h</dd>
+              <dt>Affected</dt><dd>EU-West storage, 2 dependent services</dd>
+            </dl>
+            <div class="b-cluster"><button class="b-btn is-primary is-sm" type="button">Notify owners</button><button class="b-btn is-ghost is-sm" type="button">Reschedule</button></div>
+          </div>
+        </section>
+
+        <section class="b-panel is-tinted">
+          <div class="b-panel-head">
+            <div class="b-panel-title"><h3 style="margin: 0">Tinted panel</h3><small>Secondary content, no shadow</small></div>
+          </div>
+          <div class="b-panel-body"><p class="muted" style="margin: 0">Sits behind the main panels: filters summary, help, related links. It reads as part of the page rather than a separate object.</p></div>
+        </section>
+      </div>
+
+      <h3>Split with a sticky inspector</h3>
+      <div class="b-split" style="--b-aside: 300px">
+        <section class="b-panel">
+          <div class="b-panel-head"><div class="b-panel-title"><h3 style="margin: 0">Change request CR-2291</h3><small>Fibre re-route between two sites</small></div><div class="b-panel-actions"><button class="b-btn is-sm" type="button">Edit</button><button class="b-btn is-primary is-sm" type="button">Approve</button></div></div>
+          <div class="b-panel-body b-stack">
+            <div class="b-callout is-warn"><span class="b-callout-icon">!</span><div><strong>Overlaps a planned window</strong>CR-2288 touches the same span on Saturday. Approving both doubles the outage risk.</div><button class="b-btn is-ghost is-sm" type="button">Compare</button></div>
+            <p style="margin: 0; max-width: 62ch">The aside stays in view while the main column scrolls, and drops under the content below 1024px. Put the record's key facts there, not its actions.</p>
+            <details class="b-collapse" open><summary>Plan <small>4 steps</small></summary><div class="b-collapse-body">Splice new pair, move traffic, verify, release old pair.</div></details>
+            <details class="b-collapse"><summary>Rollback <small>2 steps</small></summary><div class="b-collapse-body">Move traffic back, restore original patching.</div></details>
+          </div>
+        </section>
+        <aside class="b-panel is-flush">
+          <div class="b-panel-head"><div class="b-panel-title"><h3 style="margin: 0">Details</h3></div></div>
+          <div class="b-panel-body">
+            <dl class="b-kv">
+              <dt>Status</dt><dd><span class="b-state is-warn">Waiting approval</span></dd>
+              <dt>Owner</dt><dd>Field team East</dd>
+              <dt>Risk</dt><dd>Medium</dd>
+              <dt>Window</dt><dd>Sun 17 Nov, 01:00–04:00</dd>
+              <dt>Linked</dt><dd><a class="b-link" href="#containers">INC-4410</a></dd>
+            </dl>
+          </div>
+        </aside>
+      </div>
+
+      <h3>Callouts</h3>
+      <div class="b-stack" style="--b-gap: 0.625rem">
+        <div class="b-callout"><span class="b-callout-icon">i</span><div><strong>Discovery runs every night at 02:00</strong>Ports changed on site show up the next morning.</div></div>
+        <div class="b-callout is-success"><span class="b-callout-icon">✓</span><div><strong>Export ready</strong>4,210 rows written to inventory-2026-11-13.csv.</div><a class="b-link" href="#containers">Download</a></div>
+        <div class="b-callout is-danger"><span class="b-callout-icon">!</span><div><strong>2 ports could not be reserved</strong>They were taken by another project a moment ago. Pick other ports and save again.</div></div>
+      </div>
+
+      <h3>Sticky action bar</h3>
+      <div class="frame is-bar">
+        <div class="fill">A long form scrolls here. The bar stays at the bottom of the view with the primary action on the right and a status note on the left, and clears the phone's home indicator.</div>
+        <div class="b-actionbar"><span class="b-actionbar-note">3 unsaved changes</span><button class="b-btn is-ghost" type="button">Discard</button><button class="b-btn is-primary" type="button">Save changes</button></div>
+      </div>
+
+      <h2 id="tables">Tables</h2>
+      <p class="intro">One base, <code>.b-table</code> inside <code>.b-table-wrap</code>: sticky header, scroll shadows at the edges, tabular numbers. Density, zebra, rules and a sticky first column are modifiers. Select rows to see the bulk bar; open a row to see its detail.</p>
+
+      <div class="demo-toggles" role="group" aria-label="Table modifiers">
+        <button class="b-btn is-sm" type="button" data-mod="is-dense" aria-pressed="false">Dense</button>
+        <button class="b-btn is-sm" type="button" data-mod="is-zebra" aria-pressed="false">Zebra</button>
+        <button class="b-btn is-sm" type="button" data-mod="is-ruled" aria-pressed="false">Ruled</button>
+        <button class="b-btn is-sm" type="button" data-mod="is-sticky-first" aria-pressed="true">Sticky first column</button>
+      </div>
+
+      <div class="b-bulkbar" id="bulk" hidden><b id="bulk-count">0 selected</b><button class="b-btn is-sm" type="button">Assign</button><button class="b-btn is-sm" type="button">Export</button><button class="b-btn is-sm" type="button" id="bulk-clear">Clear</button></div>
+      <div class="b-table-wrap is-tall">
+        <table class="b-table is-sticky-first" id="table">
+          <thead>
+            <tr>
+              <th class="shrink"><input class="b-check" type="checkbox" id="check-all" aria-label="Select all rows" /></th>
+              <th>Service</th>
+              <th>Owner</th>
+              <th>State</th>
+              <th>Load</th>
+              <th class="num">Requests / min</th>
+              <th>7 days</th>
+              <th class="shrink"><span class="sr-only">Actions</span></th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+
+      <h3>Row cards</h3>
+      <p class="intro">For short lists where each row is an object people open: projects, sites, integrations. Rows lift on hover; on phones each card wraps into two columns.</p>
+      <ul class="b-rowcards" style="--b-cols: 3">
+        <li>
+          <div class="b-cell-user"><span class="b-avatar">PT</span><span><b>Patch test · BZK–ING</b><small>2 OCH ends · created today</small></span></div>
+          <div class="b-rowcard-cell"><small>State</small><span><span class="b-state is-ok">Generated</span></span></div>
+          <div class="b-rowcard-cell"><small>Mux ports</small><span>2 of 2</span></div>
+          <div class="b-rowcard-cell"><small>Owner</small><span>Field team West</span></div>
+          <button class="b-btn is-sm" type="button">Open</button>
+        </li>
+        <li>
+          <div class="b-cell-user"><span class="b-avatar">MO</span><span><b>Multi OCH · 6 shelves</b><small>3 OCH ends · created today</small></span></div>
+          <div class="b-rowcard-cell"><small>State</small><span><span class="b-state is-warn">Needs a check</span></span></div>
+          <div class="b-rowcard-cell"><small>Mux ports</small><span>6 of 6</span></div>
+          <div class="b-rowcard-cell"><small>Owner</small><span>Planning</span></div>
+          <button class="b-btn is-sm" type="button">Open</button>
+        </li>
+      </ul>
+
+      <h3>Comparison</h3>
+      <div class="b-table-wrap is-bare">
+        <table class="b-compare">
+          <thead>
+            <tr><th>Feature</th><th>Basic<small>Small teams</small></th><th class="is-featured">Standard<small>Most teams</small></th><th>Enterprise<small>Regulated orgs</small></th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Users</td><td>10</td><td class="is-featured">100</td><td>Unlimited</td></tr>
+            <tr><td>Audit log</td><td><span class="b-no" aria-label="No">–</span></td><td class="is-featured"><span class="b-yes" aria-label="Yes">✓</span></td><td><span class="b-yes" aria-label="Yes">✓</span></td></tr>
+            <tr><td>Single sign-on</td><td><span class="b-no" aria-label="No">–</span></td><td class="is-featured"><span class="b-no" aria-label="No">–</span></td><td><span class="b-yes" aria-label="Yes">✓</span></td></tr>
+            <tr><td>Data retention</td><td>30 days</td><td class="is-featured">1 year</td><td>Custom</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Stacks on phones</h3>
+      <p class="intro">Add <code>.is-stack</code> and a <code>data-label</code> on each cell: below 640px every row becomes a label/value card. Narrow the window to see it.</p>
+      <div class="b-table-wrap">
+        <table class="b-table is-stack">
+          <thead><tr><th>Invoice</th><th>Customer</th><th>Due</th><th class="num">Amount</th><th>State</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Invoice"><b>INV-1042</b></td><td data-label="Customer">Kuzey Lojistik</td><td data-label="Due">20 Nov 2026</td><td class="num" data-label="Amount">₺48,200.00</td><td data-label="State"><span class="b-state is-warn">Due soon</span></td></tr>
+            <tr><td data-label="Invoice"><b>INV-1041</b></td><td data-label="Customer">Ada Enerji</td><td data-label="Due">02 Nov 2026</td><td class="num" data-label="Amount">₺12,750.00</td><td data-label="State"><span class="b-state is-danger">Overdue</span></td></tr>
+            <tr><td data-label="Invoice"><b>INV-1040</b></td><td data-label="Customer">Mavi Liman</td><td data-label="Due">28 Oct 2026</td><td class="num" data-label="Amount">₺6,900.00</td><td data-label="State"><span class="b-state is-ok">Paid</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="auth">Sign in</h2>
+      <p class="intro">Four layouts share one card: split (brand panel beside the form), center (card on a soft spotlight), glass (frosted card on a moving mesh) and minimal (no card, just the form). Each step reuses the same field, SSO, code and strength pieces.</p>
+      <div class="demo-toggles" role="group" aria-label="Layout">
+        <button class="b-btn is-sm" type="button" data-layout="is-split" aria-pressed="true">Split</button>
+        <button class="b-btn is-sm" type="button" data-layout="is-center" aria-pressed="false">Center</button>
+        <button class="b-btn is-sm" type="button" data-layout="is-glass" aria-pressed="false">Glass</button>
+        <button class="b-btn is-sm" type="button" data-layout="is-minimal" aria-pressed="false">Minimal</button>
+      </div>
+      <div class="demo-toggles" role="group" aria-label="Step">
+        <button class="b-btn is-sm" type="button" data-step="signin" aria-pressed="true">Sign in</button>
+        <button class="b-btn is-sm" type="button" data-step="error" aria-pressed="false">Wrong password</button>
+        <button class="b-btn is-sm" type="button" data-step="code" aria-pressed="false">Two-step code</button>
+        <button class="b-btn is-sm" type="button" data-step="reset" aria-pressed="false">New password</button>
+        <button class="b-btn is-sm" type="button" data-step="sent" aria-pressed="false">Link sent</button>
+      </div>
+      <div class="frame"><div class="b-auth is-split" id="auth"></div></div>
+    </div>
+
+    <script>
+      var root = document.documentElement;
+
+      function store(key, value) {
+        try {
+          if (value) localStorage.setItem(key, value);
+          else localStorage.removeItem(key);
+        } catch (e) {}
+      }
+
+      function bindSelect(id, attr, key) {
+        var select = document.getElementById(id);
+        select.value = root.dataset[attr] || '';
+        select.addEventListener('change', function () {
+          if (select.value) root.dataset[attr] = select.value;
+          else delete root.dataset[attr];
+          store(key, select.value);
+        });
+      }
+      bindSelect('palette', 'palette', 'gallery-palette');
+      bindSelect('flavour', 'flavour', 'gallery-flavour');
+
+      function toggleTheme() {
+        var next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+        root.dataset.theme = next;
+        store('theme', next);
+      }
+      document.getElementById('theme').addEventListener('click', toggleTheme);
+
+      var SERVICES = [
+        ['Billing API', 'Selin Aydın', 'SA', 'ok', 'Healthy', 42, 1840, [8, 9, 7, 10, 12, 11, 13], 'Payments'],
+        ['Invoice worker', 'Emre Kaya', 'EK', 'ok', 'Healthy', 35, 620, [6, 6, 7, 6, 8, 7, 7], 'Payments'],
+        ['Ledger sync', 'Selin Aydın', 'SA', 'warn', 'Slow', 71, 310, [9, 8, 10, 12, 14, 15, 17], 'Payments'],
+        ['Search gateway', 'Deniz Öztürk', 'DÖ', 'ok', 'Healthy', 28, 5210, [14, 13, 15, 14, 16, 15, 16], 'Platform'],
+        ['Auth service', 'Can Demir', 'CD', 'danger', 'Down', 93, 0, [12, 12, 11, 13, 12, 6, 1], 'Platform'],
+        ['Notification hub', 'Deniz Öztürk', 'DÖ', 'info', 'Deploying', 54, 980, [7, 8, 8, 9, 7, 8, 9], 'Platform']
+      ];
+
+      function spark(values) {
+        var max = Math.max.apply(null, values);
+        var min = Math.min.apply(null, values);
+        var span = max - min || 1;
+        var points = values.map(function (v, i) {
+          return [(i / (values.length - 1)) * 88, 22 - ((v - min) / span) * 18];
+        });
+        var line = points.map(function (p, i) { return (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1); }).join(' ');
+        return '<svg class="b-spark" viewBox="0 0 88 24" aria-hidden="true"><path d="' + line + '"/><path d="' + line + ' L88 24 L0 24 Z"/></svg>';
+      }
+
+      function renderRows() {
+        var body = document.getElementById('rows');
+        var html = '';
+        var group = null;
+        SERVICES.forEach(function (s, i) {
+          if (s[8] !== group) {
+            group = s[8];
+            var count = SERVICES.filter(function (x) { return x[8] === group; }).length;
+            html += '<tr class="b-group"><th colspan="8">' + group + '<small>' + count + ' services</small></th></tr>';
+          }
+          var tone = s[5] > 85 ? ' is-high' : s[5] > 65 ? ' is-mid' : '';
+          html +=
+            '<tr data-row="' + i + '">' +
+            '<td class="shrink"><input class="b-check" type="checkbox" aria-label="Select ' + s[0] + '" /></td>' +
+            '<td><div class="b-cell-user"><button class="b-expander" type="button" aria-expanded="false" aria-controls="detail-' + i + '" aria-label="Show details of ' + s[0] + '"></button><span><b>' + s[0] + '</b><small>svc-' + (1200 + i) + '</small></span></div></td>' +
+            '<td><div class="b-cell-user"><span class="b-avatar" style="--b-avatar: 1.75rem">' + s[2] + '</span><span><b>' + s[1] + '</b></span></div></td>' +
+            '<td><span class="b-state is-' + s[3] + (s[3] === 'info' ? ' is-live' : '') + '">' + s[4] + '</span></td>' +
+            '<td><div class="b-meter' + tone + '" style="--b-value: ' + s[5] + '%"><span></span><output>' + s[5] + '%</output></div></td>' +
+            '<td class="num">' + s[6].toLocaleString('en-GB') + '</td>' +
+            '<td>' + spark(s[7]) + '</td>' +
+            '<td class="shrink"><div class="b-row-actions"><button class="b-iconbtn" type="button" aria-label="Edit ' + s[0] + '">✎</button><button class="b-iconbtn is-danger" type="button" aria-label="Remove ' + s[0] + '">✕</button></div></td>' +
+            '</tr>' +
+            '<tr class="b-detail" id="detail-' + i + '" hidden><td colspan="8"><div class="b-detail-body"><dl class="b-kv is-stacked">' +
+            '<div><dt>Region</dt><dd>EU-West</dd></div><div><dt>Version</dt><dd>2.' + (14 + i) + '.0</dd></div><div><dt>Last deploy</dt><dd>' + (i + 2) + ' h ago</dd></div><div><dt>On call</dt><dd>' + s[1] + '</dd></div>' +
+            '</dl></div></td></tr>';
+        });
+        body.innerHTML = html;
+      }
+      renderRows();
+
+      var table = document.getElementById('table');
+      document.querySelectorAll('[data-mod]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var on = btn.getAttribute('aria-pressed') !== 'true';
+          btn.setAttribute('aria-pressed', String(on));
+          table.classList.toggle(btn.dataset.mod, on);
+        });
+      });
+
+      table.addEventListener('click', function (e) {
+        var exp = e.target.closest('.b-expander');
+        if (!exp) return;
+        var open = exp.getAttribute('aria-expanded') !== 'true';
+        exp.setAttribute('aria-expanded', String(open));
+        document.getElementById(exp.getAttribute('aria-controls')).hidden = !open;
+      });
+
+      var bulk = document.getElementById('bulk');
+      var checkAll = document.getElementById('check-all');
+      function syncSelection() {
+        var boxes = Array.prototype.slice.call(table.querySelectorAll('tbody .b-check'));
+        var picked = boxes.filter(function (b) { return b.checked; });
+        boxes.forEach(function (b) { b.closest('tr').classList.toggle('is-selected', b.checked); });
+        bulk.hidden = picked.length === 0;
+        document.getElementById('bulk-count').textContent = picked.length + ' selected';
+        checkAll.checked = picked.length === boxes.length;
+        checkAll.indeterminate = picked.length > 0 && picked.length < boxes.length;
+      }
+      table.addEventListener('change', function (e) {
+        if (e.target === checkAll) {
+          table.querySelectorAll('tbody .b-check').forEach(function (b) { b.checked = checkAll.checked; });
+        }
+        syncSelection();
+      });
+      document.getElementById('bulk-clear').addEventListener('click', function () {
+        table.querySelectorAll('.b-check').forEach(function (b) { b.checked = false; });
+        syncSelection();
+      });
+
+      var MAIL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>';
+      var LOGO = '<span class="b-auth-logo"><i>◆</i>Northwind Ops</span>';
+      var CORNER = '<div class="b-auth-corner"><button class="b-btn is-ghost is-sm" type="button" data-auth-theme>Theme</button><button class="b-btn is-ghost is-sm" type="button">EN</button></div>';
+
+      function signIn(withError) {
+        return (
+          '<div class="b-auth-head">' + LOGO + '<h1>Sign in</h1><p>Welcome back. Use your work account.</p></div>' +
+          '<div class="b-sso"><button class="b-btn" type="button"><i>G</i>Google</button><button class="b-btn" type="button"><i>M</i>Microsoft</button></div>' +
+          '<div class="b-divider">or with email</div>' +
+          '<div class="b-auth-alert"' + (withError ? '' : ' hidden') + ' role="alert"><div><strong>Email or password is wrong.</strong> Check both and try again. After 5 tries the account locks for 15 minutes.</div></div>' +
+          '<form class="b-auth-form" onsubmit="return false">' +
+          '<div class="b-field"><label for="a-email">Work email</label><div class="b-input"><input id="a-email" type="email" autocomplete="username" placeholder="name@company.com" value="' + (withError ? 'deniz@northwind.co' : '') + '" /></div></div>' +
+          '<div class="b-field"><label for="a-pass">Password <a href="#auth">Forgot?</a></label><div class="b-input has-end"><input id="a-pass" type="password" autocomplete="current-password" ' + (withError ? 'aria-invalid="true" aria-describedby="a-pass-hint" value="wrong-pass"' : '') + ' /><span class="b-input-end"><button class="b-iconbtn" type="button" data-reveal aria-label="Show password">👁</button></span></div>' +
+          (withError ? '<span class="b-field-hint is-error" id="a-pass-hint">3 tries left</span>' : '') + '</div>' +
+          '<div class="b-row"><label><input class="b-check" type="checkbox" /> Keep me signed in</label></div>' +
+          '<button class="b-btn is-primary is-block" type="submit" style="height: calc(var(--b-control-h) + 0.5rem)">Sign in</button>' +
+          '</form>' +
+          '<p class="b-auth-foot">New here? <a class="b-link" href="#auth">Ask your admin for an invite</a></p>'
+        );
+      }
+
+      function code() {
+        var boxes = '';
+        for (var i = 0; i < 6; i++) {
+          if (i === 3) boxes += '<i aria-hidden="true"></i>';
+          boxes += '<input inputmode="numeric" maxlength="1" autocomplete="' + (i ? 'off' : 'one-time-code') + '" placeholder=" " aria-label="Digit ' + (i + 1) + ' of 6" />';
+        }
+        return (
+          '<div class="b-auth-head">' + LOGO + '<h1>Enter the code</h1><p>We sent a 6-digit code to the authenticator on your phone.</p></div>' +
+          '<form class="b-auth-form" onsubmit="return false"><div class="b-otp has-gap" data-otp>' + boxes + '</div>' +
+          '<button class="b-btn is-primary is-block" type="submit" style="height: calc(var(--b-control-h) + 0.5rem)">Verify</button></form>' +
+          '<p class="b-auth-foot">No code? <a class="b-link" href="#auth">Use a recovery key</a></p>'
+        );
+      }
+
+      function reset() {
+        return (
+          '<div class="b-auth-head">' + LOGO + '<h1>Choose a new password</h1><p>Use something you don\'t use anywhere else.</p></div>' +
+          '<form class="b-auth-form" onsubmit="return false">' +
+          '<div class="b-field"><label for="a-new">New password</label><div class="b-input"><input id="a-new" type="password" autocomplete="new-password" data-strength-input aria-describedby="a-strength" /></div>' +
+          '<div class="b-strength" id="a-strength" data-level="0" aria-live="polite"><div class="b-strength-bars"><i></i><i></i><i></i><i></i></div><div class="b-strength-text"><span>Strength: <b data-strength-label>Too short</b></span></div></div>' +
+          '<ul class="b-rules" data-rules><li data-rule="len">12 or more characters</li><li data-rule="case">Upper and lower case</li><li data-rule="num">A number</li><li data-rule="sym">A symbol</li></ul></div>' +
+          '<div class="b-field"><label for="a-again">Repeat password</label><div class="b-input"><input id="a-again" type="password" autocomplete="new-password" /></div></div>' +
+          '<button class="b-btn is-primary is-block" type="submit" style="height: calc(var(--b-control-h) + 0.5rem)">Save password</button></form>'
+        );
+      }
+
+      function sent() {
+        return (
+          '<div class="b-sent"><span class="b-sent-icon">' + MAIL + '</span><h2>Check your inbox</h2><p>We sent a sign-in link to <strong>deniz@northwind.co</strong>. It works for 15 minutes.</p>' +
+          '<button class="b-btn is-block" type="button">Open email app</button><p class="b-auth-legal">Nothing arrived? Check spam, or <a class="b-link" href="#auth">send it again</a> in 30 s.</p></div>'
+        );
+      }
+
+      var STEPS = { signin: function () { return signIn(false); }, error: function () { return signIn(true); }, code: code, reset: reset, sent: sent };
+      var BRAND =
+        '<aside class="b-auth-brand">' + LOGO.replace('b-auth-logo', 'b-auth-logo') +
+        '<div class="b-auth-pitch"><h2>Every change on the network, in one calm place.</h2><p>Plan reservations, generate patch lists and hand the field team exactly what to cable.</p>' +
+        '<ul class="b-auth-points"><li>Slot, port and frequency plans in one project</li><li>Patch pairs derived from live discovery</li><li>Works on a phone at the rack</li></ul></div>' +
+        '<blockquote class="b-auth-quote"><p>“We cut a two-day spreadsheet exercise down to one click before every maintenance window.”</p><footer><span class="b-avatar" style="--b-avatar: 1.75rem">SA</span>Selin Aydın · Transport planning</footer></blockquote>' +
+        '</aside>';
+
+      var layout = 'is-split';
+      var step = 'signin';
+      var auth = document.getElementById('auth');
+
+      function renderAuth() {
+        auth.className = 'b-auth ' + layout;
+        var card = '<div class="b-auth-card">' + STEPS[step]() + '</div>';
+        auth.innerHTML = layout === 'is-split' ? BRAND + '<main class="b-auth-main">' + card + '</main>' + CORNER : card + CORNER;
+        wireAuth();
+      }
+
+      function score(value) {
+        var rules = { len: value.length >= 12, case: /[a-z]/.test(value) && /[A-Z]/.test(value), num: /\d/.test(value), sym: /[^A-Za-z0-9]/.test(value) };
+        var met = Object.keys(rules).filter(function (k) { return rules[k]; }).length;
+        var level = value.length === 0 ? 0 : value.length < 8 ? 1 : Math.max(1, met);
+        return { rules: rules, level: level };
+      }
+
+      function wireAuth() {
+        var themeBtn = auth.querySelector('[data-auth-theme]');
+        if (themeBtn) themeBtn.addEventListener('click', toggleTheme);
+
+        auth.querySelectorAll('[data-reveal]').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            var input = btn.closest('.b-input').querySelector('input');
+            var show = input.type === 'password';
+            input.type = show ? 'text' : 'password';
+            btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+          });
+        });
+
+        var otp = auth.querySelector('[data-otp]');
+        if (otp) {
+          var inputs = Array.prototype.slice.call(otp.querySelectorAll('input'));
+          inputs.forEach(function (input, i) {
+            input.addEventListener('input', function () {
+              input.value = input.value.replace(/\D/g, '').slice(-1);
+              if (input.value && inputs[i + 1]) inputs[i + 1].focus();
+              otp.classList.remove('is-error');
+            });
+            input.addEventListener('keydown', function (e) {
+              if (e.key === 'Backspace' && !input.value && inputs[i - 1]) inputs[i - 1].focus();
+              if (e.key === 'ArrowLeft' && inputs[i - 1]) inputs[i - 1].focus();
+              if (e.key === 'ArrowRight' && inputs[i + 1]) inputs[i + 1].focus();
+            });
+            input.addEventListener('paste', function (e) {
+              var digits = (e.clipboardData.getData('text') || '').replace(/\D/g, '').slice(0, inputs.length);
+              if (!digits) return;
+              e.preventDefault();
+              digits.split('').forEach(function (d, k) { inputs[k].value = d; });
+              inputs[Math.min(digits.length, inputs.length - 1)].focus();
+            });
+          });
+          otp.closest('form').addEventListener('submit', function () {
+            var full = inputs.every(function (x) { return x.value; });
+            if (!full) {
+              otp.classList.remove('is-error');
+              void otp.offsetWidth;
+              otp.classList.add('is-error');
+            }
+          });
+        }
+
+        var strengthInput = auth.querySelector('[data-strength-input]');
+        if (strengthInput) {
+          var meter = auth.querySelector('.b-strength');
+          var label = auth.querySelector('[data-strength-label]');
+          var NAMES = ['Too short', 'Weak', 'Fair', 'Good', 'Strong'];
+          strengthInput.addEventListener('input', function () {
+            var s = score(strengthInput.value);
+            meter.dataset.level = String(s.level);
+            label.textContent = NAMES[s.level];
+            Object.keys(s.rules).forEach(function (k) {
+              auth.querySelector('[data-rule="' + k + '"]').classList.toggle('is-met', s.rules[k]);
+            });
+          });
+        }
+      }
+
+      function bindGroup(attr, set) {
+        document.querySelectorAll('[data-' + attr + ']').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            document.querySelectorAll('[data-' + attr + ']').forEach(function (b) { b.setAttribute('aria-pressed', String(b === btn)); });
+            set(btn.dataset[attr]);
+            renderAuth();
+          });
+        });
+      }
+      bindGroup('layout', function (v) { layout = v; });
+      bindGroup('step', function (v) { step = v; });
+      renderAuth();
+    </script>
+  </body>
+</html>

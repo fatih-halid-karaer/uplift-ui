@@ -8,7 +8,8 @@ It brings:
 - **A pattern pool** distilled from restyling production admin apps and from widely accepted modern UI practice: design tokens with light/dark, a popup + confirm system, info tips instead of text walls, searchable, filterable and paginated tables, empty states, a responsive sidebar and drawer, page archetypes, forms, charts, mobile, accessibility, microcopy, dark mode, navigation and perceived performance.
 - **Themes**: 12 palette presets and 6 flavours (calm rail, glass spring, soft, editorial, terminal, brutal), 16 font pairings, and a live theme gallery.
 - **A motion library**: about 80 animations (popups, sheets, scroll reveals, page transitions, text effects, ripples, tilt, confetti, loaders, skeletons, decorative effects, overlays, two theme transitions) with a live gallery page. All reduced-motion safe.
-- **52 React components and hooks** in both TSX and JSX: dialogs that become bottom sheets on phones, drawers, popovers, menus, a command palette, an app shell, a data table with phone cards, a tree, stat tiles, a stepper, a timeline, form fields, combobox, date picker, file drop, slider, tag input, avatars, progress, skeletons and more.
+- **Blocks**: modern panels, a split layout with a sticky inspector, collapsible sections, callouts, key-value lists and a sticky action bar; a table system with dense, zebra, ruled, sticky-column, grouped, expandable, selectable, row-card, comparison and phone-stacking styles; and sign-in pages in four layouts (split, center, glass, minimal) with SSO, two-step code, password strength and link-sent steps.
+- **57 React components and hooks** in both TSX and JSX: dialogs that become bottom sheets on phones, drawers, popovers, menus, a command palette, an app shell, a data table with phone cards, a tree, stat tiles, a stepper, a timeline, form fields, combobox, date picker, file drop, slider, tag input, avatars, progress, skeletons and more.
 - **An audit checklist** of real defects and their fixes.
 - **Modern surfaces**: mesh, dot, grid and noise backgrounds, glass and gradient-border cards, a responsive bento grid, section heads, pills, avatar stacks, progress rings, a floating dock and device frames, plus 8 tileable patterns and 12 motif marks, all driven by the tokens.
 - **Illustrations**: 12 page-level empty, error and success illustrations (no results, no data, upload, 403, 404, 500, offline, maintenance and more) that colour themselves from the tokens, so they follow every palette and dark mode.
@@ -38,6 +39,7 @@ Open these in a browser (serve the `assets` folder, e.g. `python -m http.server`
 - `assets/motion-gallery.html` — every animation, with replay buttons.
 - `assets/illustrations-gallery.html` — every illustration in the chosen palette, light or dark (`?palette=sunset` also works).
 - `assets/surfaces-gallery.html` — backgrounds, cards, bento, bits, frames, patterns and marks in the chosen palette, light or dark.
+- `assets/blocks-gallery.html` — panels, table styles and sign-in layouts with live table modifiers and sign-in steps, in any palette, flavour and theme.
 
 ## Layout
 
@@ -64,6 +66,7 @@ references/
   microcopy.md                 labels, errors, empty states, dates and numbers
   performance-perceived.md     loading thresholds, skeletons, optimistic UI
   surfaces.md                  modern backgrounds, cards, bento, patterns, marks and when not to use them
+  blocks.md                    panels and containers, table styles, sign-in layouts and pieces
 assets/
   tokens.tailwind.css          Tailwind v4 starter
   tokens.plain.css             plain CSS custom properties with a dark block
@@ -78,6 +81,8 @@ assets/
   patterns/                    tileable SVG patterns used as CSS masks
   marks/                       single-colour motif marks for logo, loader and empty states
   surfaces-gallery.html        live preview of surfaces, patterns and marks
+  blocks.css                   panels, containers, table styles and sign-in pieces (b- classes)
+  blocks-gallery.html          live preview of every block, table style and sign-in step
   react/tsx/                   components and hooks in TypeScript
   react/jsx/                   the same in JavaScript
 scripts/
