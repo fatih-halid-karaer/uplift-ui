@@ -88,6 +88,8 @@ A boolean flag that needs explaining (Protected, Reusable, Archived) is a circle
 - More than two: a "⋯" menu.
 - Delete always goes through the confirmation popup.
 - In trees and long lists, reveal row actions on hover (`opacity-0 group-hover:opacity-100`) and keep them visible on the selected row, so touch users can select first and then act.
+- A row whose detail opens in a dialog gets a **View** button (eye icon + "View") in its own last column, never squeezed into the identifier cell. Give the table component an `onView(row)` prop that appends that column, so every table puts it in the same place.
+- One table component everywhere: page lists, lists inside dashboard panels and tables inside dialogs all use it. Give it a bare mode (no outer card, toolbar optional) for embedding, a `selectedKey` for master/detail selection, and a max height with a sticky header for dialogs. Hand-rolled `<ul>` "tables" drift in spacing and lose sort and paging.
 
 ## 8. Long values
 
@@ -131,3 +133,11 @@ Below `md`, tables with more than three columns either scroll horizontally insid
 ## 12. Dashboard tiles
 
 A home page with 6–9 stat tiles that link to their pages: icon in a tinted square, the count large (24–28px, semibold, tabular), the label under it, an optional delta or sub-count in status-ink. Grid `repeat(auto-fill, minmax(14rem, 1fr))`. No heavy gradients; a hover lift (`translateY(-1px)` and the float shadow) is enough.
+
+When the tinted-square tile reads as generic (it is the default of many templates), use a **stat strip** instead: one card split into cells by 1px hairlines (`grid gap-px bg-line` with each cell on the panel colour). Each cell: a small tone mark or 13px icon in the tone colour beside a sentence-case label, the count large under it, one muted line of context. A 2px tone bar along the top edge grows from a stub to full width on hover. No per-cell borders, shadows or icon boxes.
+
+Keep tiles for numbers someone acts on. A detail page that repeats counts already visible in its table ("Alarms 1, Sites 1, Open cases 0") is noise; drop those tiles rather than restyle them.
+
+### Labels and type
+
+Small all-caps monospace labels with wide tracking ("OPEN OUTAGE CASES") read as machine-made. Use sentence-case labels in the UI font at 12–13px, medium weight, muted colour, for stat labels, table headers and nav group headings. Keep monospace for identifiers only (case IDs, site codes, hostnames).

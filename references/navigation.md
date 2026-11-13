@@ -204,6 +204,15 @@ The notifications centre is a *history* of things that happened elsewhere (a run
 - Arrival of a new notification: increment the badge, announce politely ("New notification: run 1204 failed") via the live region (accessibility.md §5). Don't open a popup for background events; if a project wants a transient hint here, a small non-blocking toast for non-critical background info is acceptable, and the item must still be in the centre.
 - Preferences page: per event type, per channel (in-app, email), with sensible defaults; never notify people of their own actions.
 
+## 10a. The selected item
+
+Show the current page in the sidebar with one strong cue, not three. Options that hold up:
+
+- **Inverted block:** the item gets the ink colour as background and the canvas colour as text, the icon keeps the primary colour. Strong and unlike most templates; in dark mode it inverts on its own because ink and canvas swap.
+- **Tinted block:** primary at ~10% behind the item, primary-ink text.
+
+Slide one shared indicator between items on navigation (measure the active link, animate `translateY` and height) instead of fading per-item backgrounds. Avoid stacking a pill, a side bar, a glow and a dot on the same item: a white card with a left accent bar and a trailing dot reads as a copied admin template.
+
 ## 11. Responsive navigation
 
 | Width | Navigation |

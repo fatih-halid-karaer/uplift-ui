@@ -148,7 +148,7 @@ The right attributes give phones the right keyboard and let password managers an
 | On/off that takes effect immediately | switch (controls-motion.md §3) |
 | On/off submitted with the form, or agreement | checkbox |
 | 2–5 exclusive options, all worth seeing | radio group (vertical) or segmented control (≤ 3 short labels) |
-| 6–15 options | select |
+| 6–15 options | select in a form; `FilterSelect` in a toolbar (§8a) |
 | > 15 options, or remote data | searchable combobox (variants.md "Combobox") |
 | Several from many | multi-select combobox with chips, or checkbox list in a scroll area with search |
 | Date | date input that opens on click or ArrowDown (controls-motion.md §5); allow typing |
@@ -156,6 +156,18 @@ The right attributes give phones the right keyboard and let password managers an
 | Number in a small range | stepper or slider with a visible value and a text input |
 
 Radios and checkboxes have the label clickable with a 40px row height on touch.
+
+### 8a. Filter dropdowns
+
+A native `<select>` opens the operating system's list: blue highlight, no padding, no dark mode, nothing that matches the app. That is fine inside a form, but a toolbar filter is looked at all day, so give it a real dropdown (`FilterSelect`):
+
+- **Trigger is a chip.** Idle it reads like a quiet button: the filter name and a chevron that turns when open. Once a value is picked it shows `Name | Value` on the primary tint with a × to clear, so active filters read at a glance and clear in one click.
+- **Panel** is a floating card (`FloatingPanel`): 4px inner padding, 32px rows with 6px radius, hover and keyboard highlight share one background, the picked row carries a check on the right. First row is "Any ‹name›" to clear.
+- **Colour dots** for options that carry a tone (severity, status): an 8px dot before the label, and an empty slot of the same width on rows without a tone so labels stay aligned.
+- **Search** appears inside the panel from about 9 options, focused on open; arrows keep working from the search box.
+- **Keyboard:** ArrowDown, Enter or Space opens; arrows, Home and End move; Enter picks; Escape closes and returns focus to the trigger; Tab closes.
+- A required choice (rows per page) uses the same component with `clearable={false}`: no "Any" row and no ×.
+- Animate the panel in with a short scale and fade from the trigger side (≈160ms) and drop it under reduced motion.
 
 ## 9. Multi-step forms
 
