@@ -1,7 +1,7 @@
 {
   "name": "uplift-ui",
-  "version": "1.4.0",
-  "description": "Restyle an existing web frontend into a modern, responsive interface with its own identity, without breaking its behaviour. Tokens with light/dark, 12 palettes, 4 flavours, ~80 motion classes, popups, info tips, searchable paged tables, empty states, illustrations, modern surfaces, ready-made blocks (panels, table styles, sign-in layouts with SSO, two-step code and password strength), React components and an audit checklist.",
+  "version": "1.5.0",
+  "description": "Restyle an existing web frontend into a modern, responsive interface with its own identity, without breaking its behaviour. Tokens with light/dim/dark, 12 palettes, 4 flavours, ~80 motion classes, popups, info tips, searchable paged tables, empty states, illustrations, modern surfaces, ready-made blocks (panels, table styles, sign-in layouts with SSO, two-step code and password strength), React components and an audit checklist.",
   "author": {
     "name": "Fatih Halid Karaer"
   }
