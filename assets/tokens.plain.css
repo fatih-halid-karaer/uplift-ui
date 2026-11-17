@@ -128,6 +128,29 @@
   --shadow-float: 0 12px 28px -8px rgb(0 0 0 / 0.55), 0 2px 6px rgb(0 0 0 / 0.3);
 }
 
+:root[data-theme='dark'][data-tone='dim'] {
+  --canvas: color-mix(in srgb, var(--n-900), var(--n-700) 35%);
+  --panel: color-mix(in srgb, var(--n-800), var(--n-700) 30%);
+  --subtle: color-mix(in srgb, var(--n-800), var(--n-900) 40%);
+  --sunken: color-mix(in srgb, var(--n-700), var(--n-800) 30%);
+  --line: color-mix(in srgb, var(--n-600), var(--n-700) 40%);
+  --line-soft: color-mix(in srgb, var(--n-700), var(--n-800) 30%);
+  --ink: var(--n-50);
+  --ink-muted: var(--n-300);
+  --highlight: color-mix(in srgb, var(--p-400), transparent 80%);
+  --field: color-mix(in srgb, var(--n-900), var(--n-800) 40%);
+  --field-line: var(--n-500);
+  --field-line-hover: var(--n-400);
+
+  --success-soft: color-mix(in srgb, #4ade80, transparent 84%);
+  --warn-soft: color-mix(in srgb, #fbbf24, transparent 84%);
+  --danger-soft: color-mix(in srgb, #f87171, transparent 84%);
+  --info-soft: color-mix(in srgb, #38bdf8, transparent 84%);
+
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.18);
+  --shadow-float: 0 12px 28px -8px rgb(0 0 0 / 0.36), 0 2px 6px rgb(0 0 0 / 0.18);
+}
+
 body {
   margin: 0;
   font-family: var(--font-sans);

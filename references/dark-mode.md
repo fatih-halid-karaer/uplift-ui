@@ -16,8 +16,9 @@ Dark mode is not "light mode with the colours flipped". In light mode, depth com
 9. Third-party widgets and embedded content
 10. Avoiding the flash
 11. Switching
-12. Testing
-13. Common mistakes
+12. Dim tone: a middle step between light and dark
+13. Testing
+14. Common mistakes
 
 ## 1. Principles
 
@@ -150,9 +151,10 @@ The flash of the wrong theme (FOUC) happens when the theme is applied after firs
     (function () {
       try {
         var s = localStorage.getItem('theme') || 'system';
-        var dark = s === 'dark' || (s === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
+        var dark = s === 'dark' || s === 'dim' || (s === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
         var r = document.documentElement;
         r.dataset.theme = dark ? 'dark' : 'light';
+        if (s === 'dim') r.dataset.tone = 'dim';
         r.style.colorScheme = dark ? 'dark' : 'light';
       } catch (e) {}
     })();
@@ -168,12 +170,40 @@ The flash of the wrong theme (FOUC) happens when the theme is applied after firs
 
 ## 11. Switching
 
-- Three options: Light, Dark, System. Persisted. "System" follows `prefers-color-scheme` live via a `change` listener on the media query.
+- Three options: Light, Dark, System, plus Dim when the app offers it (§12), in the order Light · Dim · Dark · System. Persisted. "System" follows `prefers-color-scheme` live via a `change` listener on the media query.
 - The switch lives in the floating pill (layout-responsive.md §7) and in the profile page (pages.md §8); both write the same value.
 - Transition: the identity's motif (sweep or circular reveal) or an instant switch; skip animation under reduced motion (controls-motion.md §7).
 - Persist per user on the server if the app has accounts and people use several devices; localStorage remains the pre-paint source.
 
-## 12. Testing
+## 12. Dim tone: a middle step between light and dark
+
+Some people find light too bright and dark too heavy, especially on long shifts in dense admin screens. A Dim tone sits between them: dark-mode structure with a mid-dark, softer canvas. Offer it when the user asks for "something in between", "softer dark", "dimmed" or "hafif karanlık"; don't add it unasked to a small app.
+
+**Build it as a tone on top of dark, not as a third theme.**
+
+- Mark it with `data-theme="dark" data-tone="dim"` on `<html>`. Every existing dark rule (`[data-theme='dark'] …`, the Tailwind `dark:` variant, `light-dark()` resolving to the dark value via `color-scheme: dark`) keeps working, so no screen has to be restyled twice.
+- Override only tokens under `:root[data-theme='dark'][data-tone='dim']`: canvas, panel, subtle, sunken, lines, ink, field, the `*-soft` tints and shadows. `assets/tokens.plain.css` and `assets/tokens.tailwind.css` contain the block.
+- Derive the values from the existing ramp with `color-mix()` instead of new hex codes, so every palette preset and the brand ramp get a matching Dim for free.
+
+**Values that work** (lightness in OKLCH, roughly):
+
+| Role | Dark | Dim | Light |
+|---|---|---|---|
+| canvas | ~14% | ~24–28% | ~97% |
+| panel | ~18% | ~28–32% | 100% |
+| sunken / hover | panel +4% | panel +5% | panel −3% |
+| body ink | surface-0/100 | surface-50, not pure white | surface-700 |
+| muted ink | surface-400 | surface-300 (one step lighter, contrast drops otherwise) | surface-500 |
+| `*-soft` tint alpha | 12% | 16% (a wash disappears on a lighter canvas) | solid tint |
+| shadow alpha | 0.3–0.55 | about 60% of dark | brand-tinted 0.05–0.16 |
+
+- Keep the hue: tint the Dim neutrals toward the brand like the other two themes. A neutral grey Dim next to a red or blue brand looks like a broken dark mode.
+- Primary stays the dark-mode primary (primary-400); if it feels loud on the lighter canvas, take one step toward 300 rather than back to 600.
+- Literal colours in dark rules (overlay veils, map tooltips, scrollbar thumbs, `rgba(…)` busy masks) don't follow tokens: give each one a Dim override in the same block, then grep the dark rules for `rgba(` and `#` to be sure.
+- The switcher grows to four options: Light · Dim · Dark · System, with a half-filled circle icon (Lucide `contrast`). A sliding indicator needs one more step. "System" never resolves to Dim; it is only an explicit choice.
+- The pre-paint script (§10) and `assets/react/*/theme` already handle `dim`. Code that watches `data-theme` (charts, maps) sees `dark` in Dim, which is right; read token values at render time so the softer surfaces carry over.
+
+## 13. Testing
 
 - View every page in both themes as part of each step (SKILL.md step 4), not at the end.
 - Contrast check of every role pair in dark (accessibility.md §2), especially ink-muted on sunken, `*-ink` on `*-soft`, primary-contrast on primary.
@@ -183,8 +213,9 @@ The flash of the wrong theme (FOUC) happens when the theme is applied after firs
 - Toggle the OS theme while the app is on "System": it follows without reload.
 - Check images and logos once on dark.
 - Screenshot both themes side by side for the user's review.
+- If Dim is offered: check every page in Dim too, open overlays and portaled menus in Dim, and screenshot Light · Dim · Dark side by side. Reload on Dim: no flash to light or full dark.
 
-## 13. Common mistakes
+## 14. Common mistakes
 
 | Mistake | Fix |
 |---|---|
@@ -200,3 +231,7 @@ The flash of the wrong theme (FOUC) happens when the theme is applied after firs
 | Logo disappears on dark | `currentColor` SVG or a dark variant |
 | Light-yellow autofill boxes | Autofill override with field and ink roles |
 | Dark mode tested only on the dashboard | Every page, every overlay, both themes, each step |
+| Dim built as a third theme with its own copy of every dark rule | A tone on dark: `data-tone="dim"` plus a token block |
+| Dim colours hard-coded as new hex values | `color-mix()` from the existing ramp so every palette gets a Dim |
+| Dim looks washed out: tints and muted text vanish | Raise `*-soft` alpha, muted ink one step lighter |
+| Overlay veil or busy mask still near-black in Dim | Dim override for each literal `rgba()` in dark rules |

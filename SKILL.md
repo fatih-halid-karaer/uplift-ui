@@ -28,7 +28,7 @@ Present a short plan: the defects, the proposed identity (motif, palette, type p
 
 1. Tokens: neutral and brand ramps, semantic roles, status quartets, light/dark via `light-dark()` or two variable blocks, typography, radius, shadows, motion. Start from `assets/tokens.tailwind.css` or `assets/tokens.plain.css`, and pick a palette preset and flavour from `assets/themes/` (show the user `theme-gallery.html` to choose). Details: `references/tokens.md`, `references/themes.md`.
 2. Self-host fonts; switch icons to one family (`scripts/build_icon_css.py` builds mask-based icon CSS for only the icons in use).
-3. Theme switching (light / dark / system, persisted, no flash) and its transition.
+3. Theme switching (light / dark / system, persisted, no flash) and its transition. If the user wants something between light and dark ("softer dark", "dimmed"), add a Dim tone as a token layer on dark (`data-tone="dim"`), not a third copy of the styles: `references/dark-mode.md` §12.
 4. Shared primitives: button, input, switch, tabs, dialog, popup + confirm, info tip, empty state, pager, table toolbar. Reuse existing components where they exist; restyle them in place so call sites don't change.
 
 The foundation commit should leave every page working and already looking more coherent.
@@ -96,7 +96,7 @@ Read only what the current step needs.
 | `references/mobile.md` | phones: touch targets, thumb zones, sheets, safe areas, `dvh`, tables on small screens |
 | `references/accessibility.md` | per-component accessibility checklist, focus recipes, announcements, testing |
 | `references/microcopy.md` | labels, errors, empty states, confirmations, numbers and dates, translation-ready copy |
-| `references/dark-mode.md` | dark surfaces and elevation, brand and status colours in dark, charts/maps/widgets, no flash |
+| `references/dark-mode.md` | dark surfaces and elevation, brand and status colours in dark, charts/maps/widgets, no flash, Dim tone between light and dark |
 | `references/navigation.md` | information architecture, URL state, breadcrumbs, back behaviour, search, command palette |
 | `references/performance-perceived.md` | loading thresholds, skeletons, optimistic UI, prefetching, layout shift |
 | `references/surfaces.md` | modern backgrounds (mesh, dots, grid, noise), patterns, glass and gradient-border cards, bento grid, section heads, pills, avatar stack, progress ring, dock, device frames, motif marks; and when not to use them |

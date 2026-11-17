@@ -5,6 +5,7 @@ const cx = (...parts: (string | false | undefined | null)[]) => parts.filter(Boo
 
 const CHOICES: readonly { value: ThemeChoice; label: string; icon: string }[] = [
   { value: 'light', label: 'Light theme', icon: 'sun' },
+  { value: 'dim', label: 'Dim theme', icon: 'contrast' },
   { value: 'dark', label: 'Dark theme', icon: 'moon' },
   { value: 'system', label: 'Match system', icon: 'monitor' },
 ];

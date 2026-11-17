@@ -3,6 +3,7 @@ import { useTheme } from './theme';
 const cx = (...parts) => parts.filter(Boolean).join(' ');
 const CHOICES = [
   { value: 'light', label: 'Light theme', icon: 'sun' },
+  { value: 'dim', label: 'Dim theme', icon: 'contrast' },
   { value: 'dark', label: 'Dark theme', icon: 'moon' },
   { value: 'system', label: 'Match system', icon: 'monitor' },
 ];

@@ -138,6 +138,27 @@
     color-scheme: dark;
   }
 
+  :root[data-theme='dark'][data-tone='dim'] {
+    --color-canvas: color-mix(in srgb, var(--color-surface-900), var(--color-surface-700) 35%);
+    --color-panel: color-mix(in srgb, var(--color-surface-800), var(--color-surface-700) 30%);
+    --color-subtle: color-mix(in srgb, var(--color-surface-800), var(--color-surface-900) 40%);
+    --color-sunken: color-mix(in srgb, var(--color-surface-700), var(--color-surface-800) 30%);
+    --color-line: color-mix(in srgb, var(--color-surface-600), var(--color-surface-700) 40%);
+    --color-line-soft: color-mix(in srgb, var(--color-surface-700), var(--color-surface-800) 30%);
+    --color-ink: var(--color-surface-50);
+    --color-ink-muted: var(--color-surface-300);
+    --color-highlight: color-mix(in srgb, var(--color-primary-400), transparent 80%);
+    --color-field: color-mix(in srgb, var(--color-surface-900), var(--color-surface-800) 40%);
+    --color-field-line: var(--color-surface-500);
+    --color-field-line-hover: var(--color-surface-400);
+    --color-success-soft: color-mix(in srgb, #4ade80, transparent 84%);
+    --color-warn-soft: color-mix(in srgb, #fbbf24, transparent 84%);
+    --color-danger-soft: color-mix(in srgb, #f87171, transparent 84%);
+    --color-info-soft: color-mix(in srgb, #38bdf8, transparent 84%);
+    --shadow-card: 0 1px 2px rgb(0 0 0 / 0.18);
+    --shadow-float: 0 12px 28px -8px rgb(0 0 0 / 0.36), 0 2px 6px rgb(0 0 0 / 0.18);
+  }
+
   body {
     font-family: var(--font-sans);
     font-size: 0.875rem;

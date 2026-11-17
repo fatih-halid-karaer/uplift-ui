@@ -1,18 +1,19 @@
 import { useEffect, useRef, useState } from 'react';
 
-export type ThemeChoice = 'light' | 'dark' | 'system';
-export type Scheme = 'light' | 'dark';
+export type ThemeChoice = 'light' | 'dim' | 'dark' | 'system';
+export type Scheme = 'light' | 'dim' | 'dark';
 export type ThemeTransition = 'sweep' | 'reveal' | 'none';
 
 const KEY = 'theme';
 const DARK_QUERY = '(prefers-color-scheme: dark)';
+const CHOICES: readonly ThemeChoice[] = ['light', 'dim', 'dark', 'system'];
 
-export const PRE_PAINT_SCRIPT = `try{var t=localStorage.getItem('${KEY}');var d=t==='dark'||(t!=='light'&&matchMedia('${DARK_QUERY}').matches);document.documentElement.dataset.theme=d?'dark':'light';document.documentElement.style.colorScheme=d?'dark':'light'}catch(e){}`;
+export const PRE_PAINT_SCRIPT = `try{var t=localStorage.getItem('${KEY}');var r=document.documentElement;var m=t==='dim'?'dim':t==='dark'||(t!=='light'&&matchMedia('${DARK_QUERY}').matches)?'dark':'light';r.dataset.theme=m==='light'?'light':'dark';if(m==='dim')r.dataset.tone='dim';r.style.colorScheme=m==='light'?'light':'dark'}catch(e){}`;
 
 function readChoice(): ThemeChoice {
   try {
-    const stored = localStorage.getItem(KEY);
-    return stored === 'light' || stored === 'dark' ? stored : 'system';
+    const stored = localStorage.getItem(KEY) as ThemeChoice | null;
+    return stored !== null && CHOICES.includes(stored) ? stored : 'system';
   } catch {
     return 'system';
   }
@@ -37,15 +38,24 @@ function remember(choice: ThemeChoice): boolean {
   }
 }
 
+function current(): Scheme {
+  const root = document.documentElement;
+  if (root.dataset.theme !== 'dark') return 'light';
+  return root.dataset.tone === 'dim' ? 'dim' : 'dark';
+}
+
 function apply(scheme: Scheme) {
   const root = document.documentElement;
-  root.dataset.theme = scheme;
-  root.style.colorScheme = scheme;
+  const base = scheme === 'light' ? 'light' : 'dark';
+  root.dataset.theme = base;
+  if (scheme === 'dim') root.dataset.tone = 'dim';
+  else delete root.dataset.tone;
+  root.style.colorScheme = base;
 }
 
 function transitionTo(scheme: Scheme, kind: ThemeTransition, origin?: { x: number; y: number }) {
   const root = document.documentElement;
-  if (root.dataset.theme === scheme) return;
+  if (current() === scheme) return;
   const calm = typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (kind === 'none' || calm || typeof document.startViewTransition !== 'function') {
     apply(scheme);
