@@ -2,22 +2,24 @@
 
 Run this before changing anything (to write the uplift plan) and again at the end (to verify). Each item names the defect and the fix. The defects are real ones found in production frontends.
 
+Start with `python scripts/audit_scan.py --src <source>`: it finds the items marked *(scan)* below and prints file:line examples. The rest need reading the code and walking the pages. For contrast, run `python scripts/contrast_check.py`.
+
 ## Structure and tokens
-- [ ] Several `:root` blocks or "skins" layered on top of each other, the same component restyled in many places → one token file, components read only role tokens; delete the dead layers.
-- [ ] Hard-coded hex colours in components → map to roles (tokens.md §10).
+- [ ] Several `:root` blocks or "skins" layered on top of each other, the same component restyled in many places → one token file, components read only role tokens; delete the dead layers. *(scan)*
+- [ ] Hard-coded hex colours in components → map to roles (tokens.md §10). *(scan)*
 - [ ] Two greys a step apart used for the same purpose → merge.
 - [ ] Duplicate scale steps (two size tokens with the same value) → collapse.
-- [ ] Ad-hoc breakpoints (480, 520, 560, 600, 700, 720, 900…) → three or four: 640, 768, 1024, 1280.
-- [ ] Platform-only font stacks (e.g. a Windows-only font first) → self-hosted web fonts with a neutral fallback.
+- [ ] Ad-hoc breakpoints (480, 520, 560, 600, 700, 720, 900…) → three or four: 640, 768, 1024, 1280. *(scan)*
+- [ ] Platform-only font stacks (e.g. a Windows-only font first) → self-hosted web fonts with a neutral fallback. *(scan)*
 
 ## Theme
-- [ ] Flash of the wrong theme on load: theme applied in a React effect, `color-scheme` hard-coded in `index.html` → inline pre-paint script that reads the stored choice and sets `data-theme` and `color-scheme`.
+- [ ] Flash of the wrong theme on load: theme applied in a React effect, `color-scheme` hard-coded in `index.html` → inline pre-paint script that reads the stored choice and sets `data-theme` and `color-scheme`. *(scan)*
 - [ ] Dark-mode leaks: `#fff` or a brand hex inside third-party containers (graphs, maps, code editors), scrollbars, loaders → search for literal colours, theme every embedded widget.
 - [ ] No "system" option, or the choice is not persisted → light / dark / system, persisted, system follows `prefers-color-scheme` live.
 
 ## Feedback
-- [ ] Toasts, banners and alerts mixed → one popup channel (feedback.md §1).
-- [ ] `window.confirm` / `alert` → promise-based confirm popup.
+- [ ] Toasts, banners and alerts mixed → one popup channel (feedback.md §1). *(scan)*
+- [ ] `window.confirm` / `alert` → promise-based confirm popup. *(scan)*
 - [ ] Destructive actions without a question → confirm with the object named.
 - [ ] Raw server messages shown ("409", stack traces) → `describeError` maps status and codes to sentences; duplicates collapsed.
 - [ ] Popups say the tone twice ("SUCCESS / Success") → drop the generic title.
@@ -40,7 +42,7 @@ Run this before changing anything (to write the uplift plan) and again at the en
 - [ ] Details card that only holds Rename/Delete → move actions into the list rows.
 - [ ] Toggling one switch disables (and dims) every switch in the column → disable only the one saving.
 - [ ] Entrance animation replays on every re-render → run once per mount or page.
-- [ ] `body { user-select: none }` → users can't copy data; restrict it to buttons.
+- [ ] `body { user-select: none }` → users can't copy data; restrict it to buttons. *(scan)*
 
 ## Layout and responsive
 - [ ] Horizontal page scroll on phones → overflow only inside table wrappers; wrap toolbars and heading actions.
@@ -52,13 +54,13 @@ Run this before changing anything (to write the uplift plan) and again at the en
 - [ ] Hover-only actions with no touch path → visible on the selected item.
 
 ## Accessibility
-- [ ] Icon-only buttons without `aria-label` → add, plus `title`.
+- [ ] Icon-only buttons without `aria-label` → add, plus `title`. *(scan)*
 - [ ] Tooltips not linked to their trigger → `aria-describedby`; Esc closes.
 - [ ] Error text not linked to its field → `aria-describedby`, `aria-invalid`.
 - [ ] Tabs with `role="tab"` but no arrow keys or roving tabindex → add.
-- [ ] Focus rings removed → `:focus-visible` outline in primary.
+- [ ] Focus rings removed → `:focus-visible` outline in primary. *(scan)*
 - [ ] Status shown by colour alone → keep the word.
-- [ ] Animations ignore `prefers-reduced-motion` → global reduced-motion block.
+- [ ] Animations ignore `prefers-reduced-motion` → global reduced-motion block. *(scan)*
 
 ## Verification at the end
 - Type check and tests pass; nothing in behaviour changed unless the user asked.

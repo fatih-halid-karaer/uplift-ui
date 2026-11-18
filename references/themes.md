@@ -188,7 +188,7 @@ Set a display serif through `--font-display`, not `--font-sans`: serifs belong t
 3. Optionally drift the hue a few degrees along the ramp (warmer/yellower in light steps for oranges, slightly bluer in dark steps for teals); it looks more natural than a fixed hue.
 4. Clip out-of-gamut colours by reducing chroma, not lightness.
 5. Neutral ramp: same hue (or ±10°), chroma 30–115% of the base neutral (≈ 0.01–0.04). Warm brands want warm neutrals.
-6. Check: 700 on white ≥ 4.5, 400 on neutral-950 ≥ 4.5, 950 on 400 ≥ 4.5, neutral-500 on white ≥ 4.5. If 700 fails, lower L of 600–900 by 0.02–0.05; if 400 fails, raise L of 300–400 by 0.02–0.03.
+6. Check with `python scripts/contrast_check.py --extra <your palette file> --palette <name>`: it resolves the roles in light, dark and dim and measures every text, button, highlight, status and focus pair. By hand, the minimum is 700 on white ≥ 4.5, 400 on neutral-950 ≥ 4.5, 950 on 400 ≥ 4.5, and muted text (neutral-500 mixed 30% toward 600) on the canvas ≥ 4.5. If 700 fails, lower L of 600–900 by 0.02–0.05; if 400 fails, raise L of 300–400 by 0.02–0.03.
 7. Compare against the status hues (success ≈ 149°, warn ≈ 58°, danger ≈ 27°, info ≈ 242°). Within ~15°, move the brand or lower its chroma and document it (§4).
 8. Write the values into both variable families (`--p-*` and `--color-primary-*`, `--n-*` and `--color-surface-*`) and view them in the gallery in both themes.
 
