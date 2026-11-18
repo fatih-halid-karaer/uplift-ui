@@ -1,6 +1,6 @@
 ---
 name: uplift-ui
-description: Restyle an existing web frontend into a modern, responsive, user-friendly interface with its own identity, without breaking its behaviour. Brings a pool of proven patterns (design tokens with light/dark, popup and confirm system, info tips instead of text walls, searchable/filterable/paginated tables, empty states, switches, tabs, responsive sidebar and drawer, theme transitions, motion with reduced-motion fallbacks) plus an audit checklist. Use this skill whenever the user wants to beautify, modernise, polish, clean up, "make user friendly", make responsive, redesign or give a new look to an existing app, admin panel, dashboard or internal tool, or asks why their UI looks cheap, cluttered or inconsistent, even if they do not say "restyle". Also use it when unifying the look of several pages, replacing a component library's default theme, or adding dark mode to an existing app.
+description: Restyle an existing web frontend into a modern, responsive, user-friendly interface with its own identity, without breaking its behaviour. Brings a pool of proven patterns (design tokens with light/dark, popup and confirm system, info tips instead of text walls, searchable/filterable/paginated tables, empty states, switches, tabs, responsive sidebar and drawer, theme transitions, motion with reduced-motion fallbacks) plus an audit checklist. Use this skill whenever the user wants to beautify, modernise, polish, clean up, "make user friendly", make responsive, redesign or give a new look to an existing app, admin panel, dashboard or internal tool, or asks why their UI looks cheap, cluttered or inconsistent, even if they do not say "restyle". Also use it when unifying the look of several pages, replacing a component library's default theme (Angular Material, MUI, Ant Design, PrimeNG, Bootstrap, ag-Grid), adding dark mode to an existing app, or checking a frontend's contrast and accessibility.
 ---
 
 # uplift-ui
@@ -17,7 +17,9 @@ Restyling goes wrong in two ways: changing everything at once (the app breaks an
 
 - Find the stack: framework, styling approach (Tailwind, CSS modules, plain CSS, a component library), icon set, fonts, how themes are applied.
 - Walk every page (run the app if you can; otherwise read the routes). Note what each page is for.
-- Run `references/audit-checklist.md` against it and list the defects you find, grouped by severity.
+- Run `python scripts/audit_scan.py --src <source folders> --exclude <vendored template>` for the defects a scan can find (hard-coded colours, token layers, ad-hoc breakpoints, native dialogs, mixed message channels, unlabelled icon buttons, removed focus rings, missing reduced-motion, theme flash). Read each flagged line before trusting it.
+- Then walk `references/audit-checklist.md` for the rest and list the defects, grouped by severity.
+- If the app is not React + Tailwind, or themes a component library (Angular Material, MUI, Ant Design, PrimeNG/PrimeVue, Vuetify, Bootstrap, ag-Grid), read `references/frameworks.md` before planning.
 - If the organisation has sibling frontends, look at them too, so the new identity is different on purpose (`references/identity.md` §5).
 
 ### 2. Agree on direction with the user
@@ -26,7 +28,8 @@ Present a short plan: the defects, the proposed identity (motif, palette, type p
 
 ### 3. Build the foundation first
 
-1. Tokens: neutral and brand ramps, semantic roles, status quartets, light/dark via `light-dark()` or two variable blocks, typography, radius, shadows, motion. Start from `assets/tokens.tailwind.css` or `assets/tokens.plain.css`, and pick a palette preset and flavour from `assets/themes/` (show the user `theme-gallery.html` to choose). Details: `references/tokens.md`, `references/themes.md`.
+1. Tokens: neutral and brand ramps, semantic roles, status quartets, light/dark via `light-dark()` or two variable blocks, typography, radius, shadows, motion. Start from `assets/tokens.tailwind.css` or `assets/tokens.plain.css`, and pick a palette preset and flavour from `assets/themes/` (show the user `theme-gallery.html` to choose). Run `python scripts/contrast_check.py` (add `--extra <file>` for a custom palette) and fix every failing pair before building on it. Details: `references/tokens.md`, `references/themes.md`.
+   If the app uses a component library, feed its theme from the tokens through the library's own API (`references/frameworks.md`), never by overriding its internal class names.
 2. Self-host fonts; switch icons to one family (`scripts/build_icon_css.py` builds mask-based icon CSS for only the icons in use).
 3. Theme switching (light / dark / system, persisted, no flash) and its transition. If the user wants something between light and dark ("softer dark", "dimmed"), add a Dim tone as a token layer on dark (`data-tone="dim"`), not a third copy of the styles: `references/dark-mode.md` §12.
 4. Shared primitives: button, input, switch, tabs, dialog, popup + confirm, info tip, empty state, pager, table toolbar. Reuse existing components where they exist; restyle them in place so call sites don't change.
@@ -53,7 +56,7 @@ For each page, apply the patterns that fit:
 | Plain, cramped or unreadable table | `b-table` modifiers and cell types, bulk bar, stack on phones | blocks.md §2 |
 | Dated or forced-dark sign-in page | `b-auth` layout with SSO, code, strength and link-sent steps | blocks.md §3 |
 
-After each page: type-check, run the tests, look at it in light and dark and at phone width, and show the user. Keep each step small enough to review in a minute.
+After each page: type-check, run the tests, re-run `audit_scan.py` on what you touched, look at it in light and dark and at phone width, and show the user. Keep each step small enough to review in a minute.
 
 ### 5. Verify and hand over
 
@@ -81,6 +84,7 @@ Read only what the current step needs.
 | File | Read when |
 |---|---|
 | `references/audit-checklist.md` | starting (to plan) and finishing (to verify) |
+| `references/frameworks.md` | the app is Angular, Vue, Svelte or server-rendered, or uses a component library (Angular Material, MUI, Ant Design, Chakra, Mantine, shadcn/ui, Vuetify, PrimeNG/PrimeVue, Bootstrap, ag-Grid) or embedded charts and widgets |
 | `references/tokens.md` | building or migrating colours, type, radius, shadow, motion |
 | `references/identity.md` | choosing motif, palette, fonts, login look |
 | `references/variants.md` | choosing between the calm-rail and glass-spring flavours; sort, column resize, combobox, KPI tiles, charts, map/graph frames |
@@ -130,6 +134,8 @@ Read only what the current step needs.
 | ↳ blocks | `Panel` + `KeyValue`, `AuthLayout` (+ `AuthBrand`, `AuthHead`, `AuthLogo`, `SsoButtons`, `AuthDivider`, `AuthAlert`, `AuthSent`), `OtpInput` (paste, arrows, backspace, one-time-code autofill), `PasswordStrength` (+ `scorePassword`); these use `blocks.css` classes instead of Tailwind |
 | ↳ hooks | `theme` (light/dark/system, pre-paint script), `motion` (reveal, count-up, typewriter, scramble, odometer, ripple, magnetic, tilt, FLIP, sliding indicator, view transitions…), `layout` (media query, resize handle), `overlay` (modal focus handling, anchored positioning), `floating` (small popovers, dismiss) |
 | `scripts/build_icon_css.py` | scans the source for used icon names and writes mask-based CSS from a Lucide SVG folder |
+| `scripts/audit_scan.py` | static scan for the checklist defects a script can find, grouped by section with severity and file:line examples; `--json` for tooling, `--fail-on high` for CI |
+| `scripts/contrast_check.py` | resolves the tokens for every palette in light, dark and dim (plus `--flavour` and a project's own `--extra` palette) and checks WCAG contrast of the text, button, highlight, status and focus pairs; exit code 1 on failure |
 
 The components use Tailwind v4 classes on top of `tokens.tailwind.css`; for a project without Tailwind, keep their structure and behaviour and move the classes into the project's own CSS using `tokens.plain.css`. Icons are written as `<i class="icon icon-NAME">` (see `build_icon_css.py`); swap in the project's icon component if it has one.
 
