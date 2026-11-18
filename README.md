@@ -10,7 +10,9 @@ It brings:
 - **A motion library**: about 80 animations (popups, sheets, scroll reveals, page transitions, text effects, ripples, tilt, confetti, loaders, skeletons, decorative effects, overlays, two theme transitions) with a live gallery page. All reduced-motion safe.
 - **Blocks**: modern panels, a split layout with a sticky inspector, collapsible sections, callouts, key-value lists and a sticky action bar; a table system with dense, zebra, ruled, sticky-column, grouped, expandable, selectable, row-card, comparison and phone-stacking styles; and sign-in pages in four layouts (split, center, glass, minimal) with SSO, two-step code, password strength and link-sent steps.
 - **57 React components and hooks** in both TSX and JSX: dialogs that become bottom sheets on phones, drawers, popovers, menus, a command palette, an app shell, a data table with phone cards, a tree, stat tiles, a stepper, a timeline, form fields, combobox, date picker, file drop, slider, tag input, avatars, progress, skeletons and more.
-- **An audit checklist** of real defects and their fixes.
+- **An audit checklist** of real defects and their fixes, and **`audit_scan.py`**, a static scanner that finds the ones a script can see (hard-coded colours, stacked token layers, ad-hoc breakpoints, native dialogs, mixed toast libraries, unlabelled icon buttons, removed focus rings, missing reduced-motion, theme flash) with file:line examples, JSON output and a CI exit code.
+- **`contrast_check.py`**: resolves the tokens for every palette and flavour in light, dark and dim (including `color-mix()` in sRGB and OKLab) and checks WCAG contrast of every text, button, highlight, status and focus pair. All presets pass AA.
+- **Framework and library guide**: how to feed the tokens, dark mode and the popup channel into Angular Material, Fuse-style templates, MUI, Ant Design, Chakra, Mantine, shadcn/ui, Vue, Vuetify, PrimeNG/PrimeVue, Nuxt, Svelte, Bootstrap, server-rendered apps, ag-Grid and charts, without overriding library internals.
 - **Modern surfaces**: mesh, dot, grid and noise backgrounds, glass and gradient-border cards, a responsive bento grid, section heads, pills, avatar stacks, progress rings, a floating dock and device frames, plus 8 tileable patterns and 12 motif marks, all driven by the tokens.
 - **Illustrations**: 12 page-level empty, error and success illustrations (no results, no data, upload, 403, 404, 500, offline, maintenance and more) that colour themselves from the tokens, so they follow every palette and dark mode.
 - **Starter assets**: Tailwind v4 and plain-CSS token files, and a script that builds mask-based icon CSS for only the icons a codebase uses.
@@ -27,6 +29,13 @@ Or with the skills CLI:
 
 ```bash
 npx skills add <you>/uplift-ui
+```
+
+Run the scanner and the contrast check directly too:
+
+```bash
+python ~/.claude/skills/uplift-ui/scripts/audit_scan.py --src ./src --exclude vendor
+python ~/.claude/skills/uplift-ui/scripts/contrast_check.py --extra ./src/styles/brand.css --palette brand
 ```
 
 Then ask Claude things like "make this admin panel look modern and work on phones", "our tables are a mess, clean them up", or "add dark mode and a proper popup system".
@@ -47,6 +56,7 @@ Open these in a browser (serve the `assets` folder, e.g. `python -m http.server`
 SKILL.md                       workflow, principles, reference map
 references/
   audit-checklist.md           defects to look for and how to verify
+  frameworks.md                Angular, Vue, Svelte, server-rendered apps and component libraries
   tokens.md                    colour, type, radius, shadow, motion architecture
   themes.md                    palette presets, flavours, contrast, font pairings
   identity.md                  motif, palette, fonts, staying distinct from sibling apps
@@ -87,6 +97,8 @@ assets/
   react/jsx/                   the same in JavaScript
 scripts/
   build_icon_css.py            icon CSS generator for Lucide (or any outline SVG set)
+  audit_scan.py                static scan for checklist defects, with severity and file:line examples
+  contrast_check.py            WCAG contrast of the token pairs in every palette, flavour and theme
 ```
 
 ## Licence
