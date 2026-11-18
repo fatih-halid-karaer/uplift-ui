@@ -33,7 +33,7 @@
 
   --color-ink: light-dark(var(--color-surface-700), var(--color-surface-0));
   --color-ink-emphasis: light-dark(var(--color-surface-800), var(--color-surface-0));
-  --color-ink-muted: light-dark(var(--color-surface-500), var(--color-surface-400));
+  --color-ink-muted: light-dark(color-mix(in srgb, var(--color-surface-500), var(--color-surface-600) 30%), var(--color-surface-400));
 
   --color-highlight: light-dark(var(--color-primary-50), color-mix(in srgb, var(--color-primary-400), transparent 84%));
   --color-highlight-ink: light-dark(var(--color-primary-800), var(--color-primary-100));
@@ -147,6 +147,7 @@
     --color-line-soft: color-mix(in srgb, var(--color-surface-700), var(--color-surface-800) 30%);
     --color-ink: var(--color-surface-50);
     --color-ink-muted: var(--color-surface-300);
+    --color-primary: color-mix(in srgb, var(--color-primary-400), var(--color-primary-100) 30%);
     --color-highlight: color-mix(in srgb, var(--color-primary-400), transparent 80%);
     --color-field: color-mix(in srgb, var(--color-surface-900), var(--color-surface-800) 40%);
     --color-field-line: var(--color-surface-500);

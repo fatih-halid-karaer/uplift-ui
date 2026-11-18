@@ -29,7 +29,7 @@
   --line-soft: var(--n-100);
   --ink: var(--n-700);
   --ink-emphasis: var(--n-800);
-  --ink-muted: var(--n-500);
+  --ink-muted: color-mix(in srgb, var(--n-500), var(--n-600) 30%);
   --primary: var(--p-700);
   --primary-contrast: #ffffff;
   --highlight: var(--p-50);
@@ -137,6 +137,7 @@
   --line-soft: color-mix(in srgb, var(--n-700), var(--n-800) 30%);
   --ink: var(--n-50);
   --ink-muted: var(--n-300);
+  --primary: color-mix(in srgb, var(--p-400), var(--p-100) 30%);
   --highlight: color-mix(in srgb, var(--p-400), transparent 80%);
   --field: color-mix(in srgb, var(--n-900), var(--n-800) 40%);
   --field-line: var(--n-500);
